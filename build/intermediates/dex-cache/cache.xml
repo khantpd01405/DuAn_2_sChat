@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/home/kha/Desktop/Du_an2-master/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="0ecb4b595fa0f0f8018a149ace3ea6525624f94e">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-24.2.1_edad5def485329ce11fd3b248bd3913dc5b1e63c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/Desktop/Du_an2-master/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_48a9d08414225056f4e7072e078908370f3603a0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/Desktop/Du_an2-master/app/build/intermediates/exploded-aar/com.astuetz/pagerslidingtabstrip/1.0.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="7912610ed96381c25c36d986eba422731b9641b6">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.astuetz-pagerslidingtabstrip-1.0.1_f258e4ecaf811bc6dde04e93463e2dfd68b0d839/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/Desktop/Du_an2-master/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="492cf262a59c6db924edf59d123bbbd0a40bd247">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_535bcb9802ade49b3aea652f5fcc83b98d6ae98f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/Desktop/Du_an2-master/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_4b75ac903cb19557ff1bac169a6380e4c655a4ee/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/.gradle/caches/modules-2/files-2.1/com.github.nkzawa/engine.io-client/0.3.1/3ca9d0d53a27ecb88538ed874be417cfa827db5d/engine.io-client-0.3.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="3ca9d0d53a27ecb88538ed874be417cfa827db5d">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/engine.io-client-0.3.1_69536c650aa140e7b8f91a7e4bcc7481db44bcf5/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/.gradle/caches/modules-2/files-2.1/org.java-websocket/Java-WebSocket/1.3.0/db2658f013fb163de4a99274c2eb9e17efe535d2/Java-WebSocket-1.3.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="db2658f013fb163de4a99274c2eb9e17efe535d2">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/Java-WebSocket-1.3.0_08cebda997c114791df5e609afc452932b7b2f43/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/Desktop/Du_an2-master/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-24.2.1_12111bce18167121010d7b61a6c9b0f2b80566e0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/Desktop/Du_an2-master/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="867dad63c33388ff8c7644b236579355036d075f">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_93a705f2b25949418bc58334208eeaec0c1872c6/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/Desktop/Du_an2-master/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-24.2.1_dfd19405b32c78c0a60b3bff5c8c5dec212cbf86/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/.gradle/caches/modules-2/files-2.1/com.github.nkzawa/socket.io-client/0.3.0/8dfd7cf8d1124acb027b3ffd53eafcc518af3ba9/socket.io-client-0.3.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="8dfd7cf8d1124acb027b3ffd53eafcc518af3ba9">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/socket.io-client-0.3.0_744541ff98d53c92cc0f1005cf08b068a5c6ad46/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/Desktop/Du_an2-master/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="358f6f1aabce2df40ef84db05b127ced9ff171c7">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_e8adca9e058ea58be45407e937f0aa05be71594f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/Desktop/Du_an2-master/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-24.2.1_b1dac4ba80761b854d756ef660399690c4a29aea/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/Desktop/Du_an2-master/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-24.2.1_92bb0e027f6f290f96551579266beb1ea5eaf556/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/Desktop/Du_an2-master/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-24.2.1_c21e94a9585c1b1c5440015c080cea900a945978/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/Desktop/Du_an2-master/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-24.2.1_72df3ac52f848405a765c1061d7beb9b9cbb7872/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/24.2.1/support-annotations-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-24.2.1_4b94a71d969201b0939e7e460eb22a926acd8066/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/Desktop/Du_an2-master/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="d5c731fc64c03dfe04d51134955b483551c35849">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-24.2.1_32862f7a189a0224061d7f799a0209d0acef4f1f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/Desktop/Du_an2-master/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-24.2.1_93d6fcd8c595f1258762d68a1852295f77f6f44d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/Desktop/Du_an2-master/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="7521486d9bfd2cd9e756e0cf75ed7d97f2ce2d3b">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-24.2.1_25d266870c952f3db1a3ee0fb9ca38bb5413014c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/Desktop/Du_an2-master/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_5fbc639fe491cd576d19c9d9b4ec3af0fd028e49/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/Desktop/Du_an2-master/app/build/intermediates/exploded-aar/com.android.support/design/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="e03f47f3d1017a093bb3239d4ec47c3447f40744">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-24.2.1_282543cd917343f8cbec3d65e1952bb640cb80b2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/Desktop/Du_an2-master/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_daad8e0ae169d0720a7d992b1a325006a7aff282/classes.dex" />
+    </item>
+
+</items>

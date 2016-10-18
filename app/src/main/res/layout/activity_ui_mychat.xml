@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_ui_mychat"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.xuanvinh.demoandroid.UiMychat">
+
+    <com.astuetz.PagerSlidingTabStrip
+        android:id="@+id/mPagerSlidingTabStrip"
+        android:layout_width="match_parent"
+        app:pstsShouldExpand="true"
+        app:pstsTextAllCaps="true"
+        app:pstsDividerColor="#46dede"
+        app:pstsIndicatorColor="#46dede"
+        android:textColor="#f9f7f7"
+        android:background="#62f47f"
+        android:layout_height="48dp">
+
+    </com.astuetz.PagerSlidingTabStrip>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/mViewPager"
+        android:layout_below="@id/mPagerSlidingTabStrip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
+
+</RelativeLayout>

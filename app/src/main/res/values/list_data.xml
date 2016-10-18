@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="list_data">
+        <item>IOS</item>
+        <item>Android</item>
+        <item>Windown Phone</item>
+        <item>BlackBery</item>
+    </string-array>
+</resources>
