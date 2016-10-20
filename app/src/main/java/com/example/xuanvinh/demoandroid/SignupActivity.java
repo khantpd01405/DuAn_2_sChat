@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -93,11 +94,11 @@ public class SignupActivity extends AppCompatActivity {
      * email, password) to register url
      * */
 
-    private void registerUser(final String name, final String email,
-                              final String password) {
+    private void registerUser(final String phone, final String password,
+                              final String usrname) {
 
 
-        mSocket.emit("register", name, password, email);
+        mSocket.emit("register", phone, password, usrname);
 
         pDialog.setMessage("Registering ...");
         showDialog();
@@ -109,12 +110,14 @@ public class SignupActivity extends AppCompatActivity {
             String data =  args[0].toString();
 
             if(data == "true"){
-
+                Log.d("//////","Dang ky thanh cong");
                 // Launch login activity
                 Intent intent = new Intent(
                         SignupActivity.this,
                         LoginActivity.class);
+
                 startActivity(intent);
+
                 finish();
             }else{
                 Toast.makeText(SignupActivity.this, "Sdt hien da ton tai", Toast.LENGTH_SHORT).show();

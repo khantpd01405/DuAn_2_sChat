@@ -8,4 +8,9 @@
     <color name="colorSignupButton1">#00ffffff</color>
     <color name="colorSignupButton2">#FF2ABE8F</color>
     <color name="white">#ffffff</color>
+
+
+
+    <color name="year">#999999</color>
+    <color name="title">#222222</color>
 </resources>
