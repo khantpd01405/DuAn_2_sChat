@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
+import com.socket.contain.khanguyen.simchat.Constants;
 
 import java.net.URISyntaxException;
 
@@ -26,11 +27,10 @@ public class SignupActivity extends AppCompatActivity {
     private EditText inputPassword;
     private EditText inputUserName;
     private ProgressDialog pDialog;
-
     private Socket mSocket;
     {
         try {
-            mSocket = IO.socket("http://192.168.0.111:3000");
+            mSocket = IO.socket(Constants.CHAT_SERVER_URL);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -123,7 +123,7 @@ public class SignupActivity extends AppCompatActivity {
                 Toast.makeText(SignupActivity.this, "Sdt hien da ton tai", Toast.LENGTH_SHORT).show();
             }
 
-            //   hideDialog();
+//               hideDialog();
 
         }
     };

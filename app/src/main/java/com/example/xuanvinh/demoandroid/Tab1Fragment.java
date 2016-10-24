@@ -15,11 +15,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.adapter.layout.khanguyen.simchat.DividerItemDecoration;
+import com.adapter.layout.khanguyen.simchat.RecyclerTouchListener;
 import com.adapter.layout.khanguyen.simchat.UserAdapter;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.object.contain.khanguyen.simchat.User;
+import com.socket.contain.khanguyen.simchat.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,26 +44,18 @@ public class Tab1Fragment extends Fragment {
     String phone;
     String password;
     String usrname;
+    String usrname_current;
+    String phone_current;
     @Nullable
     private Socket mSocket;
     {
         try {
-            mSocket = IO.socket("http://192.168.0.111:3000");
+            mSocket = IO.socket(Constants.CHAT_SERVER_URL);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
     }
-    private Emitter.Listener onFragment = new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
-            String data =  args[0].toString();
-            if(data == "true"){
 
-            }
-            test_txt.setText(data.toString());
-            Toast.makeText(getContext(),"hello",Toast.LENGTH_SHORT).show();
-        }
-    };
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
@@ -69,8 +64,10 @@ public class Tab1Fragment extends Fragment {
 
         Intent intent = getActivity().getIntent();
         arr = (ArrayList<User>) intent.getSerializableExtra(LoginActivity.EXTRA_KEY);
+        usrname_current = intent.getStringExtra("name").toString();
+        phone_current = intent.getStringExtra("phone").toString();
         View view = inflater.inflate(R.layout.tab1fragment,container,false);
-
+        mSocket.connect();
 
         mSocket.on("register1", onRegister);
 
@@ -80,6 +77,7 @@ public class Tab1Fragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(mAdapter);
 //        test_txt = (TextView) view.findViewById(R.id.test_txt);
 ////        mSocket.connect();
@@ -89,7 +87,22 @@ public class Tab1Fragment extends Fragment {
 
 
 
-        mAdapter.notifyDataSetChanged();
+
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(
+                getActivity().getApplicationContext(),recyclerView, new RecyclerTouchListener.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(View view, int position) {
+                attemptLogin(arr.get(position));
+                Toast.makeText(getActivity().getApplicationContext(), position + " is selected!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(),ChatActivity.class);
+                intent.putExtra("usrname",usrname_current);
+                startActivity(intent);
+            }
+        }));
+
+
+
 
 //        test_txt.setText(arr.get(0).getUser_name());
 
@@ -103,7 +116,11 @@ public class Tab1Fragment extends Fragment {
         mAdapter.notifyDataSetChanged();
     }
 
-
+    private void attemptLogin(User user) {
+        int bind_two_user = Integer.parseInt(user.getPhone()) + Integer.parseInt(phone_current);
+        // perform the user login attempt.
+        mSocket.emit("add user", usrname_current, bind_two_user);
+    }
 
         private Emitter.Listener onRegister = new Emitter.Listener() {
             @Override
@@ -129,16 +146,12 @@ public class Tab1Fragment extends Fragment {
                             });
                         }
                         // Launch login activity
-
                     }else{
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 //   hideDialog();
-
             }
         };
 }

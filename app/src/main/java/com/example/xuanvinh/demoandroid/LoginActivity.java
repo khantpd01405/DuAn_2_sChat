@@ -13,10 +13,10 @@ import android.widget.Toast;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
+import com.socket.contain.khanguyen.simchat.Constants;
 import com.object.contain.khanguyen.simchat.User;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     private Socket mSocket;
     {
         try {
-            mSocket = IO.socket("http://192.168.0.111:3000");
+            mSocket = IO.socket(Constants.CHAT_SERVER_URL);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -75,6 +75,8 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     if(tf) UserArray.remove(ob);
                     intent.putExtra(EXTRA_KEY,UserArray);
+                    intent.putExtra("name",ob.getUser_name());
+                    intent.putExtra("phone",ob.getPhone());
                 startActivity(intent);
                 finish();
                 }else{
@@ -167,5 +169,11 @@ public class LoginActivity extends AppCompatActivity {
     private void hideDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        mSocket.off("login", onLogin);
     }
 }
