@@ -120,6 +120,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/home/kha/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/2.13.2/156fd08aa704f875bc85f42ef535704e73a42a3c/mongo-java-driver-2.13.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.3"
+        sha1="156fd08aa704f875bc85f42ef535704e73a42a3c">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/pre-dexed/debug/mongo-java-driver-2.13.2_0ff9da0cd815ca7564d5d5a18144435ecc1a50af.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/home/kha/Desktop/Du_an2-master/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/24.2.1/jars/classes.jar"
         jumboMode="false"
         optimize="true"

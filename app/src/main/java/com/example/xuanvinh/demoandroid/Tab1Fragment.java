@@ -37,7 +37,6 @@ import java.util.List;
 
 public class Tab1Fragment extends Fragment {
     TextView test_txt;
-    private List<User> userList = new ArrayList<>();
     private RecyclerView recyclerView;
     private UserAdapter mAdapter;
     ArrayList<User> arr = new ArrayList<>();
@@ -58,9 +57,6 @@ public class Tab1Fragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-
-
 
         Intent intent = getActivity().getIntent();
         arr = (ArrayList<User>) intent.getSerializableExtra(LoginActivity.EXTRA_KEY);
@@ -94,7 +90,6 @@ public class Tab1Fragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 attemptLogin(arr.get(position));
-                Toast.makeText(getActivity().getApplicationContext(), position + " is selected!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(),ChatActivity.class);
                 intent.putExtra("usrname",usrname_current);
                 startActivity(intent);
@@ -126,8 +121,6 @@ public class Tab1Fragment extends Fragment {
             @Override
             public void call(Object... args) {
                 JSONObject data = (JSONObject)  args[0];
-
-
                 try {
                     if(data.getString("tf").toString().equals("true")){
                          phone = data.getJSONObject("user").getString("phone").toString();
@@ -154,4 +147,13 @@ public class Tab1Fragment extends Fragment {
                 //   hideDialog();
             }
         };
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mSocket.disconnect();
+
+        mSocket.off("register1", onRegister);
+
+    }
 }

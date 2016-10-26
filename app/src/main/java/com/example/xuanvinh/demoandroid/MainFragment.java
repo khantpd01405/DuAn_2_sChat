@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -35,7 +36,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -58,6 +62,10 @@ public class MainFragment extends Fragment {
     public MainFragment() {
         super();
     }
+
+    //date time
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+    String currentDateandTime = sdf.format(new Date());
 
     @Override
     public void onAttach(Context context) {
@@ -117,6 +125,7 @@ public class MainFragment extends Fragment {
         mSocket.off("user left", onUserLeft);
         mSocket.off("typing", onTyping);
         mSocket.off("stop typing", onStopTyping);
+
     }
 
     @Override
@@ -206,7 +215,9 @@ public class MainFragment extends Fragment {
 
     private void addMessage(String username, String message) {
         mMessages.add(new Messaging.Builder(Messaging.TYPE_MESSAGE)
-                .username(username).message(message).build());
+                .username(username).message(message).datetime(currentDateandTime).build());
+        Log.d("/////////////",currentDateandTime);
+        mSocket.emit("update_message", username, message);
         mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
     }

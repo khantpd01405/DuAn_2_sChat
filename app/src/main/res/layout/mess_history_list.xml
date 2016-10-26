@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:orientation="vertical">
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_alignParentTop="true">
+
+
+    <ImageView
+        android:id="@+id/image_usr"
+        android:layout_width="40dp"
+        android:src="@drawable/ic_launcher"
+        android:layout_height="50dp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_alignParentTop="true">
+    <TextView
+        android:id="@+id/tv_username_listmess"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:text="sdfsd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:id="@+id/tv_message_listmess"
+        android:textColor="@color/title"
+        android:text="fsdfdsfsdds"
+        android:maxLines="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+        </LinearLayout>
+</LinearLayout>
+    <TextView
+        android:id="@+id/tv_date_listmess"
+        android:textColor="@color/year"
+        android:layout_width="wrap_content"
+        android:text="dfdsf"
+        android:layout_alignParentRight="true"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

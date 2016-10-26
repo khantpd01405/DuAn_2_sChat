@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
+import com.object.contain.khanguyen.simchat.Messaging;
 import com.socket.contain.khanguyen.simchat.Constants;
 import com.object.contain.khanguyen.simchat.User;
 
@@ -33,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     public final static String EXTRA_KEY = "key.loginactivy";
     private ArrayList<User> UserArray;
+    private ArrayList<User> UserArray_own = new ArrayList<>();
+    private ArrayList<Messaging> messageArray = new ArrayList<>();
 
     private Socket mSocket;
     {
@@ -61,10 +64,19 @@ public class LoginActivity extends AppCompatActivity {
                 if(data == "true"){
                     Intent intent = new Intent(LoginActivity.this,
                             UiMychat.class);
-                    Log.d("/////////",dat+"");
+//                    Log.d("/////////",dat+"");
                     for (int i = 0 ; i <dat.length(); i++) {
                         JSONObject rec = dat.getJSONObject(i);
-                        User User = new User(rec.getString("phone").toString(),rec.getString("password").toString(),rec.getString("usr_name").toString());
+
+                        JSONArray messArr = rec.getJSONArray("message_usr_arr");
+
+                        for (int j =0; j < messArr.length(); j++){
+                            JSONObject rec_mess = messArr.getJSONObject(j);
+                            messageArray.add(new Messaging.Builder(Messaging.TYPE_MESSAGE)
+                                    .username(rec_mess.getString("usrname"))
+                                    .message(rec_mess.getString("message")).build());
+                        }
+                        User User = new User(rec.getString("phone").toString(),rec.getString("password").toString(),rec.getString("usr_name").toString(),messageArray);
 
 
                         UserArray.add(User);
@@ -73,10 +85,17 @@ public class LoginActivity extends AppCompatActivity {
                             ob = User;
                         }
                     }
-                    if(tf) UserArray.remove(ob);
-                    intent.putExtra(EXTRA_KEY,UserArray);
+
+                    if(tf) {
+
+                        UserArray.remove(ob);
+
+                    }
+                    Log.d("////////// kha",UserArray.get(0).getUser_message().get(0).getUsername() + ": "+UserArray.get(0).getUser_message().get(0).getMessage());
+                    intent.putParcelableArrayListExtra(EXTRA_KEY,UserArray);
                     intent.putExtra("name",ob.getUser_name());
                     intent.putExtra("phone",ob.getPhone());
+
                 startActivity(intent);
                 finish();
                 }else{

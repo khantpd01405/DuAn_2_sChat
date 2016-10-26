@@ -10,6 +10,11 @@ public class message {
     private String txt_fr_mess;
     private String date_send;
 
+
+    public message() {
+    }
+
+
     public message(String id, String txt_user_mess, String txt_fr_mess, String date_send) {
         this.id = id;
         this.txt_user_mess = txt_user_mess;

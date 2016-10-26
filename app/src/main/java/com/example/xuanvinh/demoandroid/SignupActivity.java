@@ -13,9 +13,23 @@ import android.widget.Toast;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.object.contain.khanguyen.simchat.Messaging;
+import com.object.contain.khanguyen.simchat.User;
+import com.object.contain.khanguyen.simchat.message;
 import com.socket.contain.khanguyen.simchat.Constants;
 
+import org.json.JSONArray;
+
 import java.net.URISyntaxException;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -27,6 +41,12 @@ public class SignupActivity extends AppCompatActivity {
     private EditText inputPassword;
     private EditText inputUserName;
     private ProgressDialog pDialog;
+//    MongoClientURI mongoUri  = new MongoClientURI("mongodb://192.168.0.111:27017/simchat");
+//    MongoClient mongoClient = new MongoClient(mongoUri);
+//    DB db = mongoClient.getDB("simchat");
+//    DBCollection collectionNames = db.getCollection("usrcl");
+//    BasicDBObject document = new BasicDBObject();
+//    private List<Messaging> messageList = new ArrayList<>();
     private Socket mSocket;
     {
         try {
@@ -34,6 +54,9 @@ public class SignupActivity extends AppCompatActivity {
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public SignupActivity() throws UnknownHostException {
     }
 
 
@@ -97,8 +120,13 @@ public class SignupActivity extends AppCompatActivity {
     private void registerUser(final String phone, final String password,
                               final String usrname) {
 
+//        messageList.add(new Messaging.Builder(Messaging.TYPE_MESSAGE)
+//                .username("kha").message("cai chi mi").build());
+//        messageList.add(new Messaging.Builder(Messaging.TYPE_MESSAGE)
+//                .username("di").message("e kha").build());
+//        JSONArray jsArray = new JSONArray(messageList);
 
-        mSocket.emit("register", phone, password, usrname);
+        mSocket.emit("register", phone, password, usrname , "kha","chao");
 
         pDialog.setMessage("Registering ...");
         showDialog();

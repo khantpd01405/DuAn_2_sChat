@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kha on 19/10/2016.
@@ -19,7 +20,7 @@ public class User implements Parcelable {
     private String sex;
     private String birthday;
     private String fiendName;
-    private ArrayList<message> user_message;
+    private ArrayList<Messaging> user_message;
 
     public User() {
     }
@@ -30,7 +31,13 @@ public class User implements Parcelable {
         this.password = password;
         this.user_name = user_name;
     }
-    public User(String id, String user_name, String phone, String password, String email, String image, String sex, String birthday, String fiendName, ArrayList<message> user_message) {
+    public User(String phone, String password, String user_name, ArrayList<Messaging> u_message) {
+        this.phone = phone;
+        this.password = password;
+        this.user_name = user_name;
+        this.user_message = u_message;
+    }
+    public User(String id, String user_name, String phone, String password, String email, String image, String sex, String birthday, String fiendName, ArrayList<Messaging> user_message) {
         this.id = id;
         this.user_name = user_name;
         this.phone = phone;
@@ -53,6 +60,7 @@ public class User implements Parcelable {
         sex = in.readString();
         birthday = in.readString();
         fiendName = in.readString();
+        user_message = (ArrayList<Messaging>) in.readSerializable();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -139,11 +147,11 @@ public class User implements Parcelable {
         this.fiendName = fiendName;
     }
 
-    public ArrayList<message> getUser_message() {
+    public List<Messaging> getUser_message() {
         return user_message;
     }
 
-    public void setUser_message(ArrayList<message> user_message) {
+    public void setUser_message(ArrayList<Messaging> user_message) {
         this.user_message = user_message;
     }
 
@@ -163,5 +171,6 @@ public class User implements Parcelable {
         dest.writeString(sex);
         dest.writeString(birthday);
         dest.writeString(fiendName);
+        dest.writeSerializable(user_message);
     }
 }
