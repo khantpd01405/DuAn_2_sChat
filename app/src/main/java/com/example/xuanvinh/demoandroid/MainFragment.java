@@ -59,6 +59,7 @@ public class MainFragment extends Fragment {
     private boolean mTyping = false;
     private Handler mTypingHandler = new Handler();
     private String mUsername;
+    private String mRoomName;
     public MainFragment() {
         super();
     }
@@ -93,6 +94,7 @@ public class MainFragment extends Fragment {
 
         setHasOptionsMenu(true);
         mUsername = getActivity().getIntent().getStringExtra("usrname");
+        mRoomName = getActivity().getIntent().getStringExtra("roomName");
 
         Toast.makeText(getActivity(),mUsername.toString(),Toast.LENGTH_SHORT).show();
         mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
@@ -114,10 +116,16 @@ public class MainFragment extends Fragment {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
-
         mSocket.disconnect();
+        mSocket.emit("disconnect room", mRoomName);
         mSocket.off(Socket.EVENT_CONNECT_ERROR, onConnectError);
         mSocket.off(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
         mSocket.off("new message", onNewMessage);
@@ -162,6 +170,7 @@ public class MainFragment extends Fragment {
                 if (!mTyping) {
                     mTyping = true;
                     mSocket.emit("typing");
+                    mSocket.emit("typing all room");
                 }
 
                 mTypingHandler.removeCallbacks(onTypingTimeout);
@@ -256,6 +265,7 @@ public class MainFragment extends Fragment {
 
         // perform the sending message attempt.
         mSocket.emit("new message", message);
+        mSocket.emit("new message all user", message);
     }
 
     private void startSignIn() {
@@ -318,11 +328,11 @@ public class MainFragment extends Fragment {
                 @Override
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
-                    int text;
+                    String text;
                     String username;
                     int numUsers;
                     try {
-                        text = data.getInt("string");
+                        text = data.getString("string");
                         username = data.getString("username");
                         numUsers = data.getInt("numUsers");
                     } catch (JSONException e) {
@@ -330,13 +340,16 @@ public class MainFragment extends Fragment {
                     }
 
 
-                    Toast.makeText(getActivity(), text + " id couple", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), text + " id couple", Toast.LENGTH_SHORT).show();
                     addLog(getResources().getString(R.string.message_user_joined, username));
 //                    addParticipantsLog(numUsers);
                 }
             });
         }
     };
+
+
+
 
     private Emitter.Listener onUserLeft = new Emitter.Listener() {
         @Override
@@ -407,6 +420,7 @@ public class MainFragment extends Fragment {
 
             mTyping = false;
             mSocket.emit("stop typing");
+            mSocket.emit("stop typing all room");
         }
     };
 }

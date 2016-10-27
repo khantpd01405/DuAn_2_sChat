@@ -87,13 +87,21 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String phone = inputPhone.getText().toString().trim();
                 String pass = inputPassword.getText().toString().trim();
+                String re_pass = inputRePassword.getText().toString().trim();
                 String username = inputUserName.getText().toString().trim();
 
                 if (!username.isEmpty() && !pass.isEmpty() && !phone.isEmpty()) {
-                    registerUser(phone, pass, username);
+                    if(!pass.equals(re_pass)){
+                        Toast.makeText(getApplicationContext(),
+                                "Password và nhập lại password không khớp!", Toast.LENGTH_LONG)
+                                .show();
+                    }else{
+                        registerUser(phone, pass, username);
+                    }
+
                 } else {
                     Toast.makeText(getApplicationContext(),
-                            "Please enter your details!", Toast.LENGTH_LONG)
+                            "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_LONG)
                             .show();
                 }
             }
@@ -126,7 +134,7 @@ public class SignupActivity extends AppCompatActivity {
 //                .username("di").message("e kha").build());
 //        JSONArray jsArray = new JSONArray(messageList);
 
-        mSocket.emit("register", phone, password, usrname , "kha","chao");
+        mSocket.emit("register", phone, password, usrname);
 
         pDialog.setMessage("Registering ...");
         showDialog();
@@ -135,10 +143,16 @@ public class SignupActivity extends AppCompatActivity {
     private Emitter.Listener onRegister = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            String data =  args[0].toString();
 
+            String data =  args[0].toString();
             if(data == "true"){
-                Log.d("//////","Dang ky thanh cong");
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        hideDialog();
+                        Toast.makeText(SignupActivity.this, "Đăng ký thành công ", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
                 // Launch login activity
                 Intent intent = new Intent(
                         SignupActivity.this,
@@ -147,11 +161,17 @@ public class SignupActivity extends AppCompatActivity {
                 startActivity(intent);
 
                 finish();
-            }else{
-                Toast.makeText(SignupActivity.this, "Sdt hien da ton tai", Toast.LENGTH_SHORT).show();
-            }
 
-//               hideDialog();
+            }else{
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        hideDialog();
+                        Toast.makeText(SignupActivity.this, "Số điện thoại này đã được sử ", Toast.LENGTH_SHORT).show();
+                    }
+                    });
+                }
+
+
 
         }
     };
@@ -166,5 +186,12 @@ public class SignupActivity extends AppCompatActivity {
             pDialog.dismiss();
             pDialog.cancel();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mSocket.disconnect();
+        mSocket.off("register", onRegister);
     }
 }

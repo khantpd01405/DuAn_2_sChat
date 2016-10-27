@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void call(Object... args) {
             String data =  args[0].toString();
-            JSONArray dat =  (JSONArray) args[1];
+
 //            JSONObject data1 = (JSONObject) args[1];
             try {
 //                JSONArray arr1 = data1.getJSONArray("array");
@@ -62,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 if(data == "true"){
+                    JSONArray dat =  (JSONArray) args[1];
                     Intent intent = new Intent(LoginActivity.this,
                             UiMychat.class);
 //                    Log.d("/////////",dat+"");
@@ -91,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                         UserArray.remove(ob);
 
                     }
+
                     Log.d("////////// kha",UserArray.get(0).getUser_message().get(0).getUsername() + ": "+UserArray.get(0).getUser_message().get(0).getMessage());
                     intent.putParcelableArrayListExtra(EXTRA_KEY,UserArray);
                     intent.putExtra("name",ob.getUser_name());
@@ -99,7 +101,39 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
                 }else{
-                    Log.d("error", "cant login");
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                        Toast.makeText(LoginActivity.this, "Mật khẩu không chính xác, vui lòng kiểm tra lại", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                        }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+            hideDialog();
+
+        }
+    };
+
+
+
+    private Emitter.Listener onLogin1 = new Emitter.Listener() {
+        boolean tf = false;
+        User ob;
+        @Override
+        public void call(Object... args) {
+            String data =  args[0].toString();
+            try {
+
+
+                if(data == "false"){
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(LoginActivity.this, "Tài khoản không tồn tại, vui lòng kiểm tra lại", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -112,6 +146,7 @@ public class LoginActivity extends AppCompatActivity {
     };
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,6 +155,7 @@ public class LoginActivity extends AppCompatActivity {
         mSocket.connect();
 
         mSocket.on("login", onLogin);
+        mSocket.on("login1", onLogin1);
 
 
 
@@ -194,5 +230,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onDestroy();
 
         mSocket.off("login", onLogin);
+        mSocket.off("login1", onLogin);
     }
 }
