@@ -54,7 +54,6 @@ public class Tab3Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab3fragment,container,false);
-        mSocket.connect();
         mSocket.on("joined", onJoined);
         Intent intent = getActivity().getIntent();
         usrname_current = intent.getStringExtra("name").toString();
@@ -95,7 +94,7 @@ public class Tab3Fragment extends Fragment {
     private Emitter.Listener onJoined = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-                final String nameRoom = args[0].toString();
+//                final String nameRoom = args[0].toString();
                 final int i = Integer.parseInt(args[1].toString());
                 final int j = Integer.parseInt(args[2].toString());
                 final int k = Integer.parseInt(args[3].toString());
@@ -103,39 +102,39 @@ public class Tab3Fragment extends Fragment {
                     if (getActivity()!=null) {
                         getActivity().runOnUiThread(new Runnable() {
                             public void run() {
-                                if(nameRoom.equals("Miền Bắc")){
-                                    num = i;
-                                    arr.set(0,new Room("Miền Bắc",i));
-
-//                                    arr.add(new Room("Miền Trung"));
-//                                    arr.add(new Room("Miền Nam"));
-                                    mAdapter.notifyDataSetChanged();
-                                }
-                                if(nameRoom.equals("Miền Trung")){
-                                    num = j;
-                                    arr.set(1,new Room("Miền Trung",j));
-
-//                                    arr.add(new Room("Miền Trung"));
-//                                    arr.add(new Room("Miền Nam"));
-                                    mAdapter.notifyDataSetChanged();
-                                }
-                                if(nameRoom.equals("Miền Nam")){
-                                    num = k;
-                                    arr.set(2,new Room("Miền Nam",k));
-
-//                                    arr.add(new Room("Miền Trung"));
-//                                    arr.add(new Room("Miền Nam"));
-                                    mAdapter.notifyDataSetChanged();
-                                }
-//                                else if(nameRoom.equals("Miền Trung")){
-//                                    arr.add(new Room("Miền Bắc"));
-//                                    arr.add(new Room("Miền Trung",sl));
-//                                    arr.add(new Room("Miền Nam"));
-//                                }else if(nameRoom.equals("Miền Nam")){
-//                                    arr.add(new Room("Miền Bắc"));
-//                                    arr.add(new Room("Miền Trung"));
-//                                    arr.add(new Room("Miền Nam",sl));
+//                                if(nameRoom.equals("Miền Bắc")){
+//                                    num = i;
+//                                    arr.set(0,new Room("Miền Bắc",i));
+//
+////                                    arr.add(new Room("Miền Trung"));
+////                                    arr.add(new Room("Miền Nam"));
+//                                    mAdapter.notifyDataSetChanged();
 //                                }
+//                                if(nameRoom.equals("Miền Trung")){
+//                                    num = j;
+//                                    arr.set(1,new Room("Miền Trung",j));
+//
+////                                    arr.add(new Room("Miền Trung"));
+////                                    arr.add(new Room("Miền Nam"));
+//                                    mAdapter.notifyDataSetChanged();
+//                                }
+//                                if(nameRoom.equals("Miền Nam")){
+//                                    num = k;
+//                                    arr.set(2,new Room("Miền Nam",k));
+//
+////                                    arr.add(new Room("Miền Trung"));
+////                                    arr.add(new Room("Miền Nam"));
+//                                    mAdapter.notifyDataSetChanged();
+//                                }
+////                                else if(nameRoom.equals("Miền Trung")){
+////                                    arr.add(new Room("Miền Bắc"));
+////                                    arr.add(new Room("Miền Trung",sl));
+////                                    arr.add(new Room("Miền Nam"));
+////                                }else if(nameRoom.equals("Miền Nam")){
+////                                    arr.add(new Room("Miền Bắc"));
+////                                    arr.add(new Room("Miền Trung"));
+////                                    arr.add(new Room("Miền Nam",sl));
+////                                }
                             }
                         });
                     }
@@ -145,6 +144,5 @@ public class Tab3Fragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         mSocket.off("joined", onJoined);
-        mSocket.disconnect();
     }
 }

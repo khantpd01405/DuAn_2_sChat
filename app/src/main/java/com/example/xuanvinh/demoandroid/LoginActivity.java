@@ -69,31 +69,34 @@ public class LoginActivity extends AppCompatActivity {
                     for (int i = 0 ; i <dat.length(); i++) {
                         JSONObject rec = dat.getJSONObject(i);
 
-                        JSONArray messArr = rec.getJSONArray("message_usr_arr");
+//                        JSONArray messArr = rec.getJSONArray("message_usr_arr");
 
-                        for (int j =0; j < messArr.length(); j++){
-                            JSONObject rec_mess = messArr.getJSONObject(j);
-                            messageArray.add(new Messaging.Builder(Messaging.TYPE_MESSAGE)
-                                    .username(rec_mess.getString("usrname"))
-                                    .message(rec_mess.getString("message")).build());
-                        }
-                        User User = new User(rec.getString("phone").toString(),rec.getString("password").toString(),rec.getString("usr_name").toString(),messageArray);
-
-
+//                        for (int j =0; j < messArr.length(); j++){
+//                            JSONObject rec_mess = messArr.getJSONObject(j);
+//                            messageArray.add(new Messaging.Builder(Messaging.TYPE_MESSAGE)
+//                                    .username(rec_mess.getString("usrname"))
+//                                    .message(rec_mess.getString("message")).build());
+//                        }
+                        User User = new User(rec.getString("phone").toString(),rec.getString("password").toString(),rec.getString("usr_name").toString(), rec.getBoolean("status") ,messageArray);
                         UserArray.add(User);
                         if(inputPhone.getText().toString().equals(User.getPhone().toString())){
-                            tf =true;
+                            tf = true;
                             ob = User;
                         }
                     }
 
                     if(tf) {
-
                         UserArray.remove(ob);
-
+                        ob.setStatus(true);
+                        JSONObject jsOb = new JSONObject();
+                        jsOb.put("phone",ob.getPhone());
+                        jsOb.put("username",ob.getUser_name());
+                        jsOb.put("status",ob.isStatus());
+                        mSocket.emit("user online", jsOb);
                     }
 
-                    Log.d("////////// kha",UserArray.get(0).getUser_message().get(0).getUsername() + ": "+UserArray.get(0).getUser_message().get(0).getMessage());
+//                    Log.d("////////// kha", UserArray.get(0).getUser_message().get(0).getUsername() + ": "+UserArray.get(0).getUser_message().get(0).getMessage());
+
                     intent.putParcelableArrayListExtra(EXTRA_KEY,UserArray);
                     intent.putExtra("name",ob.getUser_name());
                     intent.putExtra("phone",ob.getPhone());
@@ -120,7 +123,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private Emitter.Listener onLogin1 = new Emitter.Listener() {
-        boolean tf = false;
         User ob;
         @Override
         public void call(Object... args) {
@@ -152,12 +154,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         UserArray = new ArrayList<>();
-        mSocket.connect();
+
 
         mSocket.on("login", onLogin);
         mSocket.on("login1", onLogin1);
 
-
+        mSocket.connect();
 
         inputPhone = (EditText) findViewById(R.id.txtPhone_number);
         inputPassword = (EditText) findViewById(R.id.txtPassword);

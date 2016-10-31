@@ -91,7 +91,6 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setHasOptionsMenu(true);
         mUsername = getActivity().getIntent().getStringExtra("usrname");
         mRoomName = getActivity().getIntent().getStringExtra("roomName");
@@ -105,7 +104,6 @@ public class MainFragment extends Fragment {
         mSocket.on("typing", onTyping);
         mSocket.on("stop typing", onStopTyping);
         mSocket.connect();
-
 //        startSignIn();
     }
 
@@ -124,8 +122,10 @@ public class MainFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mSocket.disconnect();
+
         mSocket.emit("disconnect room", mRoomName);
+        mSocket.emit("disconnectUser", mUsername);
+        mSocket.disconnect();
         mSocket.off(Socket.EVENT_CONNECT_ERROR, onConnectError);
         mSocket.off(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
         mSocket.off("new message", onNewMessage);

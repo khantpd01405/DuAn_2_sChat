@@ -39,7 +39,7 @@ public class Tab1Fragment extends Fragment {
     TextView test_txt;
     private RecyclerView recyclerView;
     private UserAdapter mAdapter;
-    ArrayList<User> arr = new ArrayList<>();
+    ArrayList<User> arr;
     String phone;
     String password;
     String usrname;
@@ -63,24 +63,26 @@ public class Tab1Fragment extends Fragment {
         usrname_current = intent.getStringExtra("name").toString();
         phone_current = intent.getStringExtra("phone").toString();
         View view = inflater.inflate(R.layout.tab1fragment,container,false);
-        mSocket.connect();
 
         mSocket.on("register1", onRegister);
+        mSocket.on("user off", onUserOff);
+        mSocket.on("user online", onUserOnline);
+
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mAdapter = new UserAdapter(arr);
-
+        Log.d("//fdfdfđf", arr.get(0).isStatus() +"");
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(mAdapter);
 //        test_txt = (TextView) view.findViewById(R.id.test_txt);
-////        mSocket.connect();
+//        mSocket.connect();
 ////        mSocket.on("getarr", onFragment);
 
 
-
+        mAdapter.notifyDataSetChanged();
 
 
 
@@ -132,7 +134,7 @@ public class Tab1Fragment extends Fragment {
                         if (getActivity()!=null) {
                             getActivity().runOnUiThread(new Runnable() {
                                 public void run() {
-                                    User user = new User(phone, password, usrname);
+                                    User user = new User(usrname, false);
                                     prepareMovieData(user);
                                     Toast.makeText(getActivity(), "Co nguoi moi dang ky", Toast.LENGTH_SHORT).show();
                                 }
@@ -140,6 +142,7 @@ public class Tab1Fragment extends Fragment {
                         }
                         // Launch login activity
                     }else{
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -147,13 +150,104 @@ public class Tab1Fragment extends Fragment {
                 //   hideDialog();
             }
         };
+
+
+
+
+    private Emitter.Listener onUserOff = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            final JSONObject data = (JSONObject) args[0];
+            Log.d("/////////////aaaaaaaaa",data.toString());
+            if (getActivity()!=null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        try {
+                            int getPosition = 0;
+                            User user = new User(usrname, false);
+                            user.setUser_name(data.getString("username"));
+                            user.setPhone(data.getString("phone"));
+                            user.setStatus(Boolean.parseBoolean(data.getString("status")));
+
+                            for(int i = 0; i < arr.size(); i++){
+                                if(user.getPhone().equals(arr.get(i).getPhone())){
+                                    getPosition = i;
+                                }
+                            }
+                            arr.set(getPosition,user);
+                            mAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        Toast.makeText(getActivity(), "Co nguoi offline", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+                    // Launch login activity
+
+
+            //   hideDialog();
+        }
+    };
+
+
+    private Emitter.Listener onUserOnline = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            final JSONObject data = (JSONObject)  args[0];
+            if (getActivity()!=null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        try {
+                            int getPosition = 0;
+                            User user = new User(usrname, false);
+
+                            user.setPhone(data.getString("phone"));
+                            user.setUser_name(data.getString("username"));
+                            user.setStatus(Boolean.parseBoolean(data.getString("status")));
+                            for(int i = 0; i < arr.size(); i++){
+                                if(user.getPhone().equals(arr.get(i).getPhone())){
+                                    getPosition = i;
+                                }
+                            }
+                            arr.set(getPosition,user);
+                            mAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        Toast.makeText(getActivity(), "Co nguoi online", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+            // Launch login activity
+
+
+            //   hideDialog();
+        }
+    };
+
+
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAdapter.notifyDataSetChanged();
+    }
+
+
+
+
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        mSocket.disconnect();
-
         mSocket.off("register1", onRegister);
+        mSocket.off("user off", onUserOff);
+        mSocket.off("user online", onUserOnline);
 
     }
 }

@@ -10,7 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
-    String[] mtitle={"Tab1","Tab2","Tab3"};
+    String[] mtitle={"Tab1","Tab2","Tab3","Tab4"};
     public ViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -29,13 +29,16 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             case 2:
                 frg = new Tab3Fragment();
                 break;
+            case 3:
+                frg = new Tab4Fragment();
+                break;
         }
         return frg;
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 
     @Override

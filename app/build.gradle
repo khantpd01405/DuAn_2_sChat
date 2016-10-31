@@ -30,4 +30,5 @@ dependencies {
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.github.nkzawa:socket.io-client:0.3.0'
     compile 'org.mongodb:mongo-java-driver:2.13.2'
+    compile 'com.weiwangcn.betterspinner:library-material:1.1.0'
 }

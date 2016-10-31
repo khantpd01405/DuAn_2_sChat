@@ -81,7 +81,7 @@ public class Tab2Fragment extends Fragment {
                                 .username(rec_mess.getString("usrname"))
                                 .message(rec_mess.getString("message")).build());
                     }
-                    User User = new User(rec.getString("phone").toString(),rec.getString("password").toString(),rec.getString("usr_name").toString(),messageArray);
+                    User User = new User(rec.getString("phone").toString(),rec.getString("password").toString(),rec.getString("usr_name").toString(),true,messageArray);
                     arr.add(User);
                     if(usrname_current.equals(User.getUser_name().toString())){
                         tf = true;
@@ -128,14 +128,14 @@ public class Tab2Fragment extends Fragment {
         usrname_current = intent.getStringExtra("name").toString();
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_history);
         String me = "";
-        for (int i = 0 ; i < arr.size() ; i++){
-
-                me = arr.get(i).getUser_message().get(arr.get(i).getUser_message().size()-1).getMessage();
-
-            mMessageListList.add(new HistoryMessage(arr.get(i).getUser_name()
-                    ,me.toString()));
-//            mMessageListList = arr.get(i).getUser_message();
-        }
+//        for (int i = 0 ; i < arr.size()-1 ; i++){
+//
+//                me = arr.get(i).getUser_message().get(arr.get(i).getUser_message().size()-1).getMessage();
+//
+//            mMessageListList.add(new HistoryMessage(arr.get(i).getUser_name()
+//                    ,me.toString()));
+////            mMessageListList = arr.get(i).getUser_message();
+//        }
 
         mAdapter = new HistoryMessAdapter(mMessageListList);
 
@@ -167,7 +167,6 @@ public class Tab2Fragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
 
-        mSocket.disconnect();
 
         mSocket.off("on_emit_message", on_emit_message);
 

@@ -5,5 +5,5 @@ package com.socket.contain.khanguyen.simchat;
  */
 
 public class Constants {
-    public static final String CHAT_SERVER_URL = "http://192.168.0.111:3000";
+    public static final String CHAT_SERVER_URL = "http://10.18.101.179:3000";
 }

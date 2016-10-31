@@ -93,7 +93,7 @@ public class SignupActivity extends AppCompatActivity {
                 if (!username.isEmpty() && !pass.isEmpty() && !phone.isEmpty()) {
                     if(!pass.equals(re_pass)){
                         Toast.makeText(getApplicationContext(),
-                                "Password và nhập lại password không khớp!", Toast.LENGTH_LONG)
+                                "Nhập lại password không khớp!", Toast.LENGTH_LONG)
                                 .show();
                     }else{
                         registerUser(phone, pass, username);
@@ -134,7 +134,7 @@ public class SignupActivity extends AppCompatActivity {
 //                .username("di").message("e kha").build());
 //        JSONArray jsArray = new JSONArray(messageList);
 
-        mSocket.emit("register", phone, password, usrname);
+        mSocket.emit("register", phone, password, usrname ,false);
 
         pDialog.setMessage("Registering ...");
         showDialog();
@@ -191,7 +191,6 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mSocket.disconnect();
         mSocket.off("register", onRegister);
     }
 }
