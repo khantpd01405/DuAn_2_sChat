@@ -1,5 +1,6 @@
 package com.object.contain.khanguyen.simchat;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -13,11 +14,15 @@ public class Messaging  implements Serializable{
     public static final int TYPE_MESSAGE = 0;
     public static final int TYPE_LOG = 1;
     public static final int TYPE_ACTION = 2;
+    public static final int TYPE_MESSAGE_USER = 3;
+    public static final int TYPE_IMAGE_USER = 4;
+    public static final int TYPE_IMAGE_FRIEND = 5;
 
     private int mType;
     private String mMessage;
     private String mUsername;
     private String mDateTime;
+    private Bitmap mImage;
 
     private Messaging() {}
 
@@ -46,13 +51,16 @@ public class Messaging  implements Serializable{
         return mDateTime;
     };
 
-
+    public Bitmap getImage() {
+        return mImage;
+    };
 
     public static class Builder {
         private final int mType;
         private String mUsername;
         private String mMessage;
         private String mDateTime;
+        private Bitmap mImage;
         public Builder(int type) {
             mType = type;
         }
@@ -67,6 +75,11 @@ public class Messaging  implements Serializable{
             return this;
         }
 
+        public Builder image(Bitmap image) {
+            mImage = image;
+            return this;
+        }
+
         public Builder datetime(String datetime) {
             mDateTime = datetime;
             return this;
@@ -78,6 +91,7 @@ public class Messaging  implements Serializable{
             message.mUsername = mUsername;
             message.mMessage = mMessage;
             message.mDateTime = mDateTime;
+            message.mImage = mImage;
             return message;
         }
     }

@@ -70,7 +70,7 @@ public class MyDialogFragment extends DialogFragment {
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
                         if(data == "true"){
-                            Toast.makeText(getActivity(), "Doi mat khau thanh cong", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Đổi mật khẩu thành công, vui lòng khởi động lại ứng dụng!", Toast.LENGTH_SHORT).show();
                             mSocket.disconnect();
                             mSocket.off("change pass",onChangePass);
 //                            startActivity(new Intent(getActivity(),LoginActivity.class));

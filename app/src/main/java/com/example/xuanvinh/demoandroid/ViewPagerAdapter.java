@@ -4,12 +4,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.astuetz.PagerSlidingTabStrip;
+
 /**
  * Created by XuanVinh on 14/10/2016.
  */
 
-public class ViewPagerAdapter extends FragmentPagerAdapter {
-
+public class ViewPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider{
+    private int tabIcons[] = {R.drawable.friend, R.drawable.chat, R.drawable.group, R.drawable.setting};
     String[] mtitle={"Tab1","Tab2","Tab3","Tab4"};
     public ViewPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -41,8 +43,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         return 4;
     }
 
+
     @Override
-    public CharSequence getPageTitle(int position) {
-        return mtitle[position];
+    public int getPageIconResId(int position) {
+        return tabIcons[position];
     }
 }

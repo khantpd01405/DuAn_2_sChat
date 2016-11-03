@@ -31,4 +31,5 @@ dependencies {
     compile 'com.github.nkzawa:socket.io-client:0.3.0'
     compile 'org.mongodb:mongo-java-driver:2.13.2'
     compile 'com.weiwangcn.betterspinner:library-material:1.1.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

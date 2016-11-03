@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@drawable/friend"
+    android:background="@drawable/b3"
     tools:context="com.example.xuanvinh.demoandroid.LoginActivity">
 
     <ImageView
@@ -59,7 +59,7 @@
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/buttonLogin"
+            android:theme="@style/buttonLogin_kitkat"
             android:shadowRadius="@android:integer/config_longAnimTime"
             android:text="Login"
             android:textColor="#ffffff"/>
@@ -70,7 +70,7 @@
 
             android:layout_height="wrap_content"
             android:shadowRadius="@android:integer/config_mediumAnimTime"
-            android:theme="@style/colorSignupButton"
+            android:theme="@style/colorSignupButton_kitkat"
             android:text="Sign up"
             android:textColor="#3EC67B"/>
 

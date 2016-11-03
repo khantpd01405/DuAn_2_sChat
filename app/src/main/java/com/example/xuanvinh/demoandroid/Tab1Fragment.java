@@ -93,7 +93,7 @@ public class Tab1Fragment extends Fragment {
             public void onItemClick(View view, int position) {
                 attemptLogin(arr.get(position));
                 Intent intent = new Intent(getActivity(),ChatActivity.class);
-                intent.putExtra("usrname",usrname_current);
+                intent.putExtra("usrname",arr.get(position).getUser_name());
                 startActivity(intent);
             }
         }));
