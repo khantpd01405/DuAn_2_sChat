@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyChat</string>
+    <string name="app_name">Schat</string>
     <string name="signup">Sign Up</string>
     <string name="btn_link_to_login">Already registred! Login Me.</string>
     <string name="txt_signup_button">Sign Up.</string>

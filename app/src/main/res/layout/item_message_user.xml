@@ -9,8 +9,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:padding="10dp"
         android:layout_alignParentRight="true">
     <TextView
         android:id="@+id/message"
@@ -32,9 +30,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@id/message"
-
         android:gravity="right"
         android:text=" :You"
         android:textStyle="bold"/>
     </LinearLayout>
+
 </RelativeLayout>

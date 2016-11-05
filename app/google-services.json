@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "600617196828",
+    "firebase_url": "https://duan2schat.firebaseio.com",
+    "project_id": "duan2schat",
+    "storage_bucket": "duan2schat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600617196828:android:08a9be1f19a60d02",
+        "android_client_info": {
+          "package_name": "com.main.schat.activities"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "600617196828-098aa34b1j8ugiot2dgvot00c8up4cv3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEHYFaHKHPYWM-J14CZHs1q-9Sz6f-Mvg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -21,6 +21,7 @@ public class User implements Parcelable {
     private String birthday;
     private String fiendName;
     private boolean status;
+    private String socketId;
     private ArrayList<Messaging> user_message;
 
     public User() {
@@ -31,11 +32,12 @@ public class User implements Parcelable {
         this.user_name = user_name;
         this.status = tf;
     }
-    public User(String phone, String password, String user_name, boolean stt ,ArrayList<Messaging> u_message) {
+    public User(String phone, String password, String user_name, boolean stt ,String socketId,ArrayList<Messaging> u_message) {
         this.phone = phone;
         this.password = password;
         this.user_name = user_name;
         this.status = stt;
+        this.socketId = socketId;
         this.user_message = u_message;
     }
     public User(String id, String user_name, String phone, String password, String email, String image, String sex, String birthday, String fiendName, ArrayList<Messaging> user_message) {
@@ -62,6 +64,7 @@ public class User implements Parcelable {
         birthday = in.readString();
         fiendName = in.readString();
         status = Boolean.parseBoolean(in.readString());
+        socketId = in.readString();
         user_message = (ArrayList<Messaging>) in.readSerializable();
     }
 
@@ -76,6 +79,14 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
+
+    public String getSocketId() {
+        return socketId;
+    }
+
+    public void setSocketId(String socketId) {
+        this.socketId = socketId;
+    }
 
     public boolean isStatus() {
         return status;
@@ -182,6 +193,7 @@ public class User implements Parcelable {
         dest.writeString(birthday);
         dest.writeString(fiendName);
         dest.writeString(String.valueOf(status));
+        dest.writeString(socketId);
         dest.writeSerializable(user_message);
     }
 }

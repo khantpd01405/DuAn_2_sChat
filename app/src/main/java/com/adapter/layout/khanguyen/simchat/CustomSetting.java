@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.xuanvinh.demoandroid.R;
+import com.main.schat.activities.R;
 
 /**
  * Created by XuanVinh on 27/10/2016.

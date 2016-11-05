@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.xuanvinh.demoandroid">
+          package="com.main.schat.activities">
+
+
+    <!-- START Added for GCM -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <permission
+        android:name="com.ln.androidgcm.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.ln.androidgcm.permission.C2D_MESSAGE" />
+    <!-- END Added for GCM -->
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -25,7 +36,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
         </provider>
-        <activity android:name=".LoginActivity"
+        <activity android:name="com.main.schat.activities.LoginActivity"
 
                   android:largeHeap="true">
             <intent-filter>
@@ -35,11 +46,40 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SignupActivity"
+            android:name="com.main.schat.activities.SignupActivity"
             android:label="@string/signup"/>
-        <activity android:name=".UiMychat"/>
-        <activity android:name=".ChatActivity">
+        <activity android:name="com.main.schat.activities.UiMychat"/>
+        <activity android:name="com.main.schat.activities.ChatActivity"
+                  android:launchMode="singleTop">
         </activity>
+
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="com.ln.androidgcm" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.GcmService.MyGcmPushReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.GcmService.GcmIntentService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+        <service android:name="OnClearFromRecentService" android:stopWithTask="false" />
     </application>
 
 </manifest>

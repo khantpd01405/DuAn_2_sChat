@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.xuanvinh.demoandroid.R;
+import com.main.schat.activities.R;
 import com.object.contain.khanguyen.simchat.User;
 
 import java.util.List;

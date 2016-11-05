@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.xuanvinh.demoandroid.R;
+import com.main.schat.activities.R;
 import com.object.contain.khanguyen.simchat.HistoryMessage;
 import com.object.contain.khanguyen.simchat.Messaging;
 import com.object.contain.khanguyen.simchat.User;

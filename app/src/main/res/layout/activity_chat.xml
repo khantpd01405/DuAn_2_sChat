@@ -4,11 +4,11 @@
              android:id="@+id/container"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context=".ChatActivity"
+             tools:context="com.main.schat.activities.ChatActivity"
              tools:ignore="MergeRootFrame">
 
     <fragment
-        class="com.example.xuanvinh.demoandroid.MainFragment"
+        class="com.main.schat.activities.MainFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </FrameLayout>
