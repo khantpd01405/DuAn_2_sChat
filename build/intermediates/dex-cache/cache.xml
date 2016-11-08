@@ -25,7 +25,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="080de04d6b905400b36b3062901431f3e80d651b">
+        sha1="e2496a6bb05ace407257b99c12c47bbd8ad01f22">
         <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_535bcb9802ade49b3aea652f5fcc83b98d6ae98f/classes.dex" />
     </item>
     <item
@@ -106,7 +106,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="8043cbc19f00d8472ac109acf9aae8ab5c717872">
+        sha1="210310ebff0a3200aced8aa3e20347c4e5013d6f">
         <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_e8adca9e058ea58be45407e937f0aa05be71594f/classes.dex" />
     </item>
     <item

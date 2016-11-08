@@ -1,5 +1,6 @@
 package com.main.schat.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,9 +11,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.adapter.layout.khanguyen.simchat.CustomSetting;
 import com.main.schat.activities.R;
+import com.state.SaveSharedPreference;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 /**
@@ -20,8 +21,7 @@ import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
  */
 
 public class Tab4Fragment extends Fragment {
-    private MaterialBetterSpinner mCustomLanguage;
-    private MaterialBetterSpinner mTheme;
+
     private String[] arrLg;
     private String[] arrCl;
     private ArrayAdapter<String> mAdapter;
@@ -29,13 +29,13 @@ public class Tab4Fragment extends Fragment {
     // ListView Setting
     private ListView mListView;
     private CustomSetting customst;
-    private String[] nameSettingArray = {"Đổi mật khẩu","Volume","Text Font","Photos và Camera"};
+    private String[] nameSettingArray = {"Đổi mật khẩu","Photos và Camera","Thay đổi ngôn ngữ","Đăng xuất"};
     private Integer[] imageArray =
             {
-                    R.drawable.online,
-                    R.drawable.online,
-                    R.drawable.online,
-                    R.drawable.online
+                    R.drawable.changepass,
+                    R.drawable.gallary,
+                    R.drawable.language,
+                    R.drawable.logout
             };
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,10 +47,8 @@ public class Tab4Fragment extends Fragment {
         usrName.setText(UiMychat.mUserName.toString());
         phone.setText(UiMychat.phone_current.toString());
         mListView = (ListView)rootView.findViewById(R.id.mListView);
-        mCustomLanguage = (MaterialBetterSpinner)rootView.findViewById(R.id.mCustomLanguage);
-        mTheme = (MaterialBetterSpinner)rootView.findViewById(R.id.mTheme);
-        doSpinnerLanguage();
-        doSpinnerColor();
+
+
 
         customst = new CustomSetting(getActivity(),nameSettingArray,imageArray);
         mListView.setAdapter(customst);
@@ -61,27 +59,29 @@ public class Tab4Fragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i == 0) {
-                    FragmentManager fragmentManager = getFragmentManager();
-                    MyDialogFragment myDialogFragment = new MyDialogFragment();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    MyDialogFragment myDialogFragment =  MyDialogFragment.newInstance("Đổi mật khẩu");
                     myDialogFragment.show(fragmentManager,"MyDialog");
+                }
+                if(i == 3) {
+                    showAlertDialog();
                 }
             }
         });
         return rootView;
     }
-    public void doSpinnerLanguage()
-    {
-        arrLg = getResources().getStringArray(R.array.mLanguage);
-        mAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_dropdown_item_1line,arrLg);
-        mCustomLanguage.setAdapter(mAdapter);
+    private void showAlertDialog() {
+
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+
+        MyAlertDialogFragment alertDialog = MyAlertDialogFragment.newInstance("Bạn muốn thoát chứ?");
+
+        alertDialog.show(fm, "fragment_alert");
+
     }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
 
-    public void doSpinnerColor()
-    {
-        arrCl = getResources().getStringArray(R.array.mTheme);
-        mAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_dropdown_item_1line,arrCl);
-        mTheme.setAdapter(mAdapter);
     }
-
-
 }

@@ -34,9 +34,7 @@
 
     <string name="action_example">Example action</string>
 
-
-
-
+    <string name="alert">Bảo mật: Lưu ý không chia sẻ mật khẩu với bất kỳ ai để đảm bảo an toàn cho tài khoản Schat của bạn</string>
     <string-array name="mLanguage">
         <item>Viet Nam</item>
         <item>English</item>

@@ -6,6 +6,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.socket.contain.khanguyen.simchat.Constants;
+import com.state.SaveSharedPreference;
 
 import java.net.URISyntaxException;
 
@@ -33,13 +35,34 @@ public class MyDialogFragment extends DialogFragment {
             throw new RuntimeException(e);
         }
     }
-    @Nullable
+
+    public MyDialogFragment() {
+
+        // Empty constructor is required for DialogFragment
+
+        // Make sure not to add arguments to the constructor
+
+        // Use `newInstance` instead as shown below
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.changepassword_dialog,container,false);
 
-        mSocket.on("change pass",onChangePass );
 
+
+        return view;
+    }
+
+
+
+    @Override
+
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+        super.onViewCreated(view, savedInstanceState);
+        mSocket.on("change pass",onChangePass );
         btnOk = (Button)view.findViewById(R.id.btnOk);
         txtPassOld = (EditText)view.findViewById(R.id.txtPassOld);
         txtPassNew1 = (EditText)view.findViewById(R.id.txtPassNew1);
@@ -50,13 +73,27 @@ public class MyDialogFragment extends DialogFragment {
                 if(txtPassNew2.getText().toString().equals(txtPassNew1.getText().toString())){
                     mSocket.emit("change pass", txtPassOld.getText().toString().trim(), txtPassNew1.getText().toString().trim());
                 }else{
-                    Toast.makeText(getActivity(),"Nhap lai mat khau khong chinh xac", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"Nhập lại mật khẩu không chính xác!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        return view;
+        // Fetch arguments from bundle and set title
+
+        String title = getArguments().getString("title", "Enter Name");
+
+        getDialog().setTitle(title);
+
+        // Show soft keyboard automatically and request focus to field
+
+
+
+        getDialog().getWindow().setSoftInputMode(
+
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
     }
+
 
     private Emitter.Listener onChangePass = new Emitter.Listener() {
         @Override
@@ -66,7 +103,8 @@ public class MyDialogFragment extends DialogFragment {
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
                         if(data == "true"){
-                            Toast.makeText(getActivity(), "Đổi mật khẩu thành công, vui lòng khởi động lại ứng dụng!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Đổi mật khẩu thành công, vui lòng khởi động lại ứng dụng!", Toast.LENGTH_LONG).show();
+                            SaveSharedPreference.clearUserName(getActivity());
                             mSocket.disconnect();
                             mSocket.off("change pass",onChangePass);
 //                            startActivity(new Intent(getActivity(),LoginActivity.class));
@@ -74,7 +112,7 @@ public class MyDialogFragment extends DialogFragment {
 
 
                         }else{
-                            Toast.makeText(getActivity(), "Mat khau khong chinh xac", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Mật khẩu không chính xác!", Toast.LENGTH_SHORT).show();
                         }
 
 
@@ -86,6 +124,21 @@ public class MyDialogFragment extends DialogFragment {
             //   hideDialog();
         }
     };
+    public static MyDialogFragment newInstance(String title) {
+
+        MyDialogFragment frag = new MyDialogFragment();
+
+        Bundle args = new Bundle();
+
+        args.putString("title", title);
+
+        frag.setArguments(args);
+
+        return frag;
+
+    }
+
+
 
     @Override
     public void onDestroy() {

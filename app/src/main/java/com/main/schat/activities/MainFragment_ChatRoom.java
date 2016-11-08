@@ -136,10 +136,11 @@ public class MainFragment_ChatRoom extends Fragment {
         mUsername = UiMychat.mUserName;
         username_friend = getActivity().getIntent().getStringExtra("name");
         socketId_friend = getActivity().getIntent().getStringExtra("socketfriend");
-        Toast.makeText(getActivity(), "id ban muon gui tin nhan "+ socketId_friend, Toast.LENGTH_SHORT).show();
-        mRoomName = getActivity().getIntent().getStringExtra("roomName");
-        username_friend = getActivity().getIntent().getStringExtra("usrname");
-        Toast.makeText(getActivity(),mUsername.toString(),Toast.LENGTH_SHORT).show();
+
+        username_friend = getActivity().getIntent().getStringExtra("name");
+        username_friend = getActivity().getIntent().getStringExtra("name");
+//        Toast.makeText(getActivity(),mUsername.toString(),Toast.LENGTH_SHORT).show();
+        mSocket.connect();
         mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
         mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
         mSocket.on("new message", onNewMessage);
@@ -155,7 +156,7 @@ public class MainFragment_ChatRoom extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment, container, false);
+        return inflater.inflate(R.layout.fragment_room, container, false);
     }
 
     @Override
@@ -234,7 +235,6 @@ public class MainFragment_ChatRoom extends Fragment {
 
                 if (!mTyping) {
                     mTyping = true;
-                    mSocket.emit("typing", socketId_friend);
                     mSocket.emit("typing all room");
                 }
 
@@ -646,7 +646,6 @@ public class MainFragment_ChatRoom extends Fragment {
         addMessage_user(mUsername, message);
 
         // perform the sending message attempt.
-        mSocket.emit("new message", message, socketId_friend);
         mSocket.emit("new message all user", message);
     }
 
@@ -861,7 +860,6 @@ public class MainFragment_ChatRoom extends Fragment {
             if (!mTyping) return;
 
             mTyping = false;
-            mSocket.emit("stop typing",socketId_friend);
             mSocket.emit("stop typing all room");
         }
     };

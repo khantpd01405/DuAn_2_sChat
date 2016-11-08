@@ -71,9 +71,9 @@ public class Tab3Fragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 attemptLogin(arr.get(position));
-                Intent intent = new Intent(getActivity(),ChatActivity.class);
+                Intent intent = new Intent(getActivity(),ChatRoomActivity.class);
                 intent.putExtra("usrname",usrname_current);
-                intent.putExtra("roomName",arr.get(position).getRoomName());
+                intent.putExtra("name",arr.get(position).getRoomName());
                 startActivity(intent);
             }
         }));

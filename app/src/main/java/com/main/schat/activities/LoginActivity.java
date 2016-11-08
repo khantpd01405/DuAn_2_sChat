@@ -1,9 +1,13 @@
 package com.main.schat.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +20,7 @@ import com.github.nkzawa.socketio.client.Socket;
 import com.object.contain.khanguyen.simchat.Messaging;
 import com.socket.contain.khanguyen.simchat.Constants;
 import com.object.contain.khanguyen.simchat.User;
+import com.state.SaveSharedPreference;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -97,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
 //                    Log.d("////////// kha", UserArray.get(0).getUser_message().get(0).getUsername() + ": "+UserArray.get(0).getUser_message().get(0).getMessage());
-
+                    SaveSharedPreference.setUserName(LoginActivity.this,ob.getPhone(), ob.getUser_name());
                     intent.putParcelableArrayListExtra(EXTRA_KEY,UserArray);
                     intent.putExtra("name",ob.getUser_name());
                     intent.putExtra("phone",ob.getPhone());
@@ -203,7 +208,6 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
     private void checkLogin(final String email, final String password) {
@@ -231,6 +235,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onDestroy();
 
         mSocket.off("login", onLogin);
-        mSocket.off("login1", onLogin);
+        mSocket.off("login1", onLogin1);
     }
 }

@@ -29,6 +29,7 @@ import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.object.contain.khanguyen.simchat.User;
 import com.socket.contain.khanguyen.simchat.Constants;
+import com.state.SaveSharedPreference;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,6 +74,7 @@ public class Tab1Fragment extends Fragment {
         mSocket.on("user off", onUserOff);
         mSocket.on("user online", onUserOnline);
         mSocket.on("push to user", onPushToUser);
+        mSocket.on("logout", onLogOut);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mAdapter = new UserAdapter(arr);
@@ -97,7 +99,7 @@ public class Tab1Fragment extends Fragment {
             public void onItemClick(View view, int position) {
                 attemptLogin(arr.get(position));
                 Intent intent = new Intent(getActivity(),ChatActivity.class);
-                intent.putExtra("usrname",arr.get(position).getUser_name());
+                intent.putExtra("name",arr.get(position).getUser_name());
                 intent.putExtra("socketfriend",arr.get(position).getSocketId());
                 startActivity(intent);
             }
@@ -241,7 +243,7 @@ public class Tab1Fragment extends Fragment {
         Intent intent = new Intent(getActivity(), ChatActivity.class);
         intent.putExtra("socketfriend", socketid);
         intent.putExtra("usrname_friend",UiMychat.mUserName);
-        intent.putExtra("usrname",username);
+        intent.putExtra("name",username);
         intent.putExtra("click",true);
         intent.putExtra("bindtoserver",bind_two_user);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -250,7 +252,7 @@ public class Tab1Fragment extends Fragment {
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getActivity())
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.logo)
                 .setContentTitle(username)
                 .setContentText(message)
                 .setAutoCancel(true)
@@ -297,6 +299,34 @@ public class Tab1Fragment extends Fragment {
         }
     };
 
+    private Emitter.Listener onLogOut = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+
+
+            getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+                    String data =   args[0].toString();
+                    if(data.equals(phone_current)){
+                        Toast.makeText(getActivity(),"Một thiết bị khác đã đăng nhập, bạn sẽ bị logout!",Toast.LENGTH_LONG).show();
+                        SaveSharedPreference.clearUserName(getActivity());
+
+                        getActivity().finish();
+                    }else{
+                        Toast.makeText(getActivity(),"Never mind",Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+                }
+            });
+
+            // Launch login activity
+
+
+            //   hideDialog();
+        }
+    };
 
 
     @Override
@@ -314,6 +344,7 @@ public class Tab1Fragment extends Fragment {
         mSocket.off("push to user", onPushToUser);
         mSocket.off("register1", onRegister);
         mSocket.off("user off", onUserOff);
+        mSocket.off("logout", onLogOut);
         mSocket.off("user online", onUserOnline);
 
     }

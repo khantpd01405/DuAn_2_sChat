@@ -55,8 +55,6 @@ public class UiMychat extends AppCompatActivity {
         mViewPager.setAdapter(mAdapter);
         mPagerSlidingTabStrip.setViewPager(mViewPager);
 
-
-        mSocket.connect();
         startService(new Intent(getBaseContext(), OnClearFromRecentService.class));
     }
 

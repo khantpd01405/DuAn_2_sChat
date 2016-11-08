@@ -137,9 +137,10 @@ public class MainFragment extends Fragment {
         mUsername = UiMychat.mUserName;
         username_friend = getActivity().getIntent().getStringExtra("name");
         socketId_friend = getActivity().getIntent().getStringExtra("socketfriend");
-        mRoomName = getActivity().getIntent().getStringExtra("roomName");
-        username_friend = getActivity().getIntent().getStringExtra("usrname");
-        Toast.makeText(getActivity(),mUsername.toString(),Toast.LENGTH_SHORT).show();
+
+        username_friend = getActivity().getIntent().getStringExtra("name");
+        username_friend = getActivity().getIntent().getStringExtra("name");
+//        Toast.makeText(getActivity(),mUsername.toString(),Toast.LENGTH_SHORT).show();
         mSocket.connect();
         mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
         mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
@@ -180,6 +181,7 @@ public class MainFragment extends Fragment {
         mSocket.off("user left", onUserLeft);
         mSocket.off("typing", onTyping);
         mSocket.off("stop typing", onStopTyping);
+
 
     }
 
