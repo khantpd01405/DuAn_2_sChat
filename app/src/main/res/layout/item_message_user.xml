@@ -16,23 +16,30 @@
         android:textColor="?android:textColorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/spacing"
-        android:paddingRight="@dimen/spacing"
-        android:maxWidth="180dp"
-
-
+        android:maxWidth="300dp"
+        android:background="@drawable/layout_bg"
+        android:padding="15dp"
+        android:textSize="15sp"
+        android:layout_marginRight="10dip"
         android:layout_gravity="center_vertical|right"
         android:text="his text"/>
-    <TextView
-        android:id="@+id/username"
-        style="?android:textAppearanceMedium"
-        android:textColor="?android:textColorPrimary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@id/message"
-        android:gravity="right"
-        android:text=" :You"
-        android:textStyle="bold"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_user_profile"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/user"/>
     </LinearLayout>
 
 </RelativeLayout>
+    <!--<TextView-->
+    <!--android:id="@+id/username"-->
+    <!--style="?android:textAppearanceMedium"-->
+    <!--android:textColor="?android:textColorPrimary"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignRight="@id/message"-->
+    <!--android:gravity="right"-->
+    <!--android:text=" You"-->
+    <!--android:visibility="invisible"-->
+    <!--android:textStyle="bold"/>-->

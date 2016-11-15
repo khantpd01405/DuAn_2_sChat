@@ -9,8 +9,8 @@
           android:title="@string/action_settings"
           app:showAsAction="never"/>
 
-    <item android:id="@+id/micro"
-          android:icon="@drawable/ic_perm_phone_msg"
+    <item android:id="@+id/gallary"
+          android:icon="@drawable/ic_collections"
           android:title="record"
           app:showAsAction="ifRoom"/>
 

@@ -23,6 +23,7 @@ public class Messaging  implements Serializable{
     private String mUsername;
     private String mDateTime;
     private Bitmap mImage;
+    private Bitmap mImage_profile;
 
     private Messaging() {}
 
@@ -55,12 +56,17 @@ public class Messaging  implements Serializable{
         return mImage;
     };
 
+    public Bitmap getImage_profile() {
+        return mImage_profile;
+    };
+
     public static class Builder {
         private final int mType;
         private String mUsername;
         private String mMessage;
         private String mDateTime;
         private Bitmap mImage;
+        private Bitmap mImage_profile;
         public Builder(int type) {
             mType = type;
         }
@@ -74,7 +80,10 @@ public class Messaging  implements Serializable{
             mMessage = message;
             return this;
         }
-
+        public Builder image_profile(Bitmap image) {
+            mImage_profile = image;
+            return this;
+        }
         public Builder image(Bitmap image) {
             mImage = image;
             return this;
@@ -92,6 +101,7 @@ public class Messaging  implements Serializable{
             message.mMessage = mMessage;
             message.mDateTime = mDateTime;
             message.mImage = mImage;
+            message.mImage_profile = mImage_profile;
             return message;
         }
     }

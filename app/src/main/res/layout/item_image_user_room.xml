@@ -25,11 +25,16 @@
             android:paddingLeft="@dimen/spacing"
             android:paddingRight="@dimen/spacing"/>
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/img_user_profile"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/user"/>
+        <TextView
+            android:id="@+id/username"
+            style="?android:textAppearanceMedium"
+            android:textColor="?android:textColorPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You"
+
+            android:layout_weight="0"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 </RelativeLayout>

@@ -85,6 +85,7 @@ public class RunActivity extends AppCompatActivity {
 
                                 rec = dat.getJSONObject(i);
                                 User User = new User(rec.getString("phone").toString(),rec.getString("password").toString(),rec.getString("usr_name").toString(), rec.getBoolean("status"), rec.getString("socketId").toString() ,messageArray);
+                                User.setImage(rec.getString("image_profile"));
                                 UserArray.add(User);
                                 if(SaveSharedPreference.getPhone(RunActivity.this).toString().equals(User.getPhone().toString())){
                                     tf = true;
@@ -100,11 +101,19 @@ public class RunActivity extends AppCompatActivity {
                                 jsOb.put("username",ob.getUser_name());
                                 jsOb.put("socketid",ob.getSocketId());
                                 jsOb.put("status",ob.isStatus());
+                                jsOb.put("profile",ob.getImage());
                                 mSocket.emit("user online", jsOb);
                             }
                             intent.putParcelableArrayListExtra(EXTRA_KEY,UserArray);
                             intent.putExtra("name",ob.getUser_name());
                             intent.putExtra("phone",ob.getPhone());
+                            intent.putExtra("socketid",ob.getSocketId());
+                            if(ob.getImage().equals("null")){
+                                intent.putExtra("profile","");
+                            }else{
+                                intent.putExtra("profile",ob.getImage());
+                            }
+
                             startActivity(intent);
                             finish();
             } catch (JSONException e) {
@@ -130,7 +139,7 @@ public class RunActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mSocket.off("logged");
+        mSocket.off("logged",onLogged);
 
     }
 

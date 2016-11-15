@@ -41,6 +41,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adapter.layout.khanguyen.simchat.MessageAdapter;
+import com.adapter.layout.khanguyen.simchat.MessageAdapter_room;
 import com.main.schat.activities.R;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
@@ -74,7 +75,7 @@ public class MainFragment_ChatRoom extends Fragment {
     private static final int REQUEST_LOGIN = 0;
 
     private static final int TYPING_TIMER_LENGTH = 600;
-    private ImageButton mRecord_Button, mCapture_Button, mTakeImage_btn, mFun_Button;
+    private ImageButton mCapture_Button, mTakeImage_btn, mFun_Button;
     private ImageView testImage;
 
     private MediaRecorder myRecorder;
@@ -114,7 +115,7 @@ public class MainFragment_ChatRoom extends Fragment {
             a =(Activity) context;
 
 
-            mAdapter = new MessageAdapter(a, mMessages);
+            mAdapter = new MessageAdapter_room(a, mMessages);
         }
 
     }
@@ -187,7 +188,6 @@ public class MainFragment_ChatRoom extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // button
-        mRecord_Button = (ImageButton) view.findViewById(R.id.record_chat);
         mCapture_Button = (ImageButton) view.findViewById(R.id.btn_capture);
         mTakeImage_btn = (ImageButton) view.findViewById(R.id.btn_take_image);
         //tool bar
@@ -264,29 +264,8 @@ public class MainFragment_ChatRoom extends Fragment {
 //            }
 //        });
 
-        //xu ly button Record
+        //xu ly button
         addEventButton();
-        mRecord_Button.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
-                    start(v);
-
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-
-                    stop(v);
-                    String path = outputFile = Environment.getExternalStorageDirectory().
-                            getAbsolutePath() + "/schat.3gpp";
-                    byte[] amthanh = FileLocal_To_Byte(path);
-                    mSocket.emit("client gui am thanh",amthanh,socketId_friend);
-                }
-
-
-                return false;
-            }
-        });
 
 
     }
@@ -949,7 +928,7 @@ public class MainFragment_ChatRoom extends Fragment {
                 // User chose the "Settings" item, show the app settings UI...
                 return true;
 
-            case R.id.micro:
+            case R.id.gallary:
                 // User chose the "Favorite" action, mark the current item
                 // as a favorite...
 

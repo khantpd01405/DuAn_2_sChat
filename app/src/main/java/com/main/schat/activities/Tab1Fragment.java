@@ -46,11 +46,8 @@ public class Tab1Fragment extends Fragment {
     private RecyclerView recyclerView;
     private UserAdapter mAdapter;
     ArrayList<User> arr;
-    String phone;
-    String password;
-    String usrname;
-    String usrname_current;
-    String phone_current;
+    int getPosition;
+    String phone, usrname, usrname_current, phone_current , profile_other, socketId_other;
     @Nullable
     private Socket mSocket;
     {
@@ -73,6 +70,7 @@ public class Tab1Fragment extends Fragment {
         mSocket.on("register1", onRegister);
         mSocket.on("user off", onUserOff);
         mSocket.on("user online", onUserOnline);
+        mSocket.on("client gui image dai dien", onUserSendProfile);
         mSocket.on("push to user", onPushToUser);
         mSocket.on("logout", onLogOut);
 
@@ -133,17 +131,18 @@ public class Tab1Fragment extends Fragment {
                 try {
                     if(data.getString("tf").toString().equals("true")){
                          phone = data.getJSONObject("user").getString("phone").toString();
-                         password = data.getJSONObject("user").getString("password").toString();
                          usrname = data.getJSONObject("user").getString("usr_name").toString();
-                        Log.d("//////","co mot nguoi dung moi");
-                        Log.d("//////",data.getJSONObject("user").getString("usr_name").toString());
+                         profile_other = data.getJSONObject("user").getString("image_profile").toString();
+                         socketId_other = data.getJSONObject("user").getString("socketId").toString();
 
                         if (getActivity()!=null) {
                             getActivity().runOnUiThread(new Runnable() {
                                 public void run() {
                                     User user = new User(usrname, false);
+                                    user.setSocketId(socketId_other);
+                                    user.setImage(profile_other);
                                     prepareMovieData(user);
-                                    Toast.makeText(getActivity(), "Co nguoi moi dang ky", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "Một người dùng mới đã sử dụng ứng dụng :)", Toast.LENGTH_LONG).show();
                                 }
                             });
                         }
@@ -165,7 +164,6 @@ public class Tab1Fragment extends Fragment {
         @Override
         public void call(Object... args) {
             final JSONObject data = (JSONObject) args[0];
-            Log.d("/////////////aaaaaaaaa",data.toString());
             if (getActivity()!=null) {
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
@@ -175,7 +173,7 @@ public class Tab1Fragment extends Fragment {
                             user.setUser_name(data.getString("username"));
                             user.setPhone(data.getString("phone"));
                             user.setStatus(Boolean.parseBoolean(data.getString("status")));
-
+                            user.setImage(data.getString("profile"));
                             for(int i = 0; i < arr.size(); i++){
                                 if(user.getPhone().equals(arr.get(i).getPhone())){
                                     getPosition = i;
@@ -207,16 +205,18 @@ public class Tab1Fragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
                         try {
-                            int getPosition = 0;
+
                             User user = new User(usrname, false);
 
                             user.setPhone(data.getString("phone"));
                             user.setUser_name(data.getString("username"));
                             user.setSocketId(data.getString("socketid"));
                             user.setStatus(Boolean.parseBoolean(data.getString("status")));
+                            user.setImage(data.getString("profile"));
                             for(int i = 0; i < arr.size(); i++){
-                                if(user.getPhone().equals(arr.get(i).getPhone())){
+                                if(data.getString("phone").equals(arr.get(i).getPhone())){
                                     getPosition = i;
+                                    break;
                                 }
                             }
                             arr.set(getPosition,user);
@@ -236,7 +236,41 @@ public class Tab1Fragment extends Fragment {
         }
     };
 
+    private Emitter.Listener onUserSendProfile = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            final JSONObject data = (JSONObject)  args[0];
+            if (getActivity()!=null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        try {
+                            int getPosition = 0;
+                            User user = new User(usrname, false);
 
+                            user.setPhone(data.getString("phone"));
+                            user.setUser_name(data.getString("username"));
+                            user.setSocketId(data.getString("socketid"));
+                            user.setStatus(Boolean.parseBoolean(data.getString("status")));
+                            user.setImage(data.getString("profile"));
+                            for(int i = 0; i < arr.size(); i++){
+                                if(user.getPhone().equals(arr.get(i).getPhone())){
+                                    getPosition = i;
+                                }
+                            }
+                            arr.set(getPosition,user);
+                            mAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+            // Launch login activity
+
+
+            //   hideDialog();
+        }
+    };
 
 
     public void sendNotification(String username,String message, String socketid, int bind_two_user) {

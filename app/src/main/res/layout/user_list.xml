@@ -23,13 +23,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_alignParentTop="true">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_user_profile"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/user"/>
 
-
-        <ImageView
-            android:id="@+id/image_userList"
-            android:layout_width="30dp"
-            android:src="@drawable/user"
-            android:layout_height="30dp" />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,9 +39,15 @@
             <TextView
                 android:id="@+id/tv_username_listuser"
                 android:textSize="16dp"
-                android:layout_marginTop="5dp"
                 android:textStyle="bold"
                 android:text="Kha"
+                android:layout_alignParentTop="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_stt"
+                android:textSize="14sp"
+                android:text="I'm funny"
                 android:layout_alignParentTop="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

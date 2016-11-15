@@ -30,7 +30,7 @@ import org.json.JSONObject;
 import java.net.URISyntaxException;
 
 public class UiMychat extends AppCompatActivity {
-    public static String mUserName , phone_current;
+    public static String mUserName , phone_current, mImage_profile, mSocketId;
     public static Socket mSocket;
     {
         try {
@@ -42,12 +42,26 @@ public class UiMychat extends AppCompatActivity {
     ViewPager mViewPager;
     PagerSlidingTabStrip mPagerSlidingTabStrip;
     ViewPagerAdapter mAdapter;
+
+
+    Emitter.Listener onUpdateImage = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            String data = args[0].toString();
+            mImage_profile = data;
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mSocket.on("update_image",onUpdateImage);
         Intent intent = getIntent();
         mUserName = intent.getStringExtra("name").toString();
         phone_current = intent.getStringExtra("phone").toString();
+        mImage_profile = intent.getStringExtra("profile").toString();
+        mSocketId = intent.getStringExtra("socketid").toString();
         setContentView(R.layout.activity_ui_mychat);
         mViewPager = (ViewPager)findViewById(R.id.mViewPager);
         mPagerSlidingTabStrip = (PagerSlidingTabStrip)findViewById(R.id.mPagerSlidingTabStrip);
@@ -77,6 +91,7 @@ public class UiMychat extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mSocket.emit("escape");
+        mSocket.off("update_image",onUpdateImage);
         mSocket.disconnect();
 
     }

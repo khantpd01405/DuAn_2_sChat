@@ -25,7 +25,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="e2496a6bb05ace407257b99c12c47bbd8ad01f22">
+        sha1="78ed61fd983afbe10482da4f89ba2e59772eaf0a">
         <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_535bcb9802ade49b3aea652f5fcc83b98d6ae98f/classes.dex" />
     </item>
     <item
@@ -106,7 +106,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="210310ebff0a3200aced8aa3e20347c4e5013d6f">
+        sha1="ec35f3e6def5043b2973640886de0c84dca38441">
         <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_e8adca9e058ea58be45407e937f0aa05be71594f/classes.dex" />
     </item>
     <item
@@ -153,6 +153,15 @@
         revision="24.0.3"
         sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
         <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/picasso-2.5.2_6b367acb1e1f98e298d627dda588a4347e935e4a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/kha/Desktop/Du_an2-master/app/build/intermediates/exploded-aar/de.hdodenhof/circleimageview/2.1.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="a2af9c72ccaa4c5c049b500ca6ea664a4ce1f7d4">
+        <dex dex="/home/kha/Desktop/Du_an2-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/de.hdodenhof-circleimageview-2.1.0_4c26e6c688a0204d7c6352890611b8f8829d6044/classes.dex" />
     </item>
     <item
         is-multidex="true"

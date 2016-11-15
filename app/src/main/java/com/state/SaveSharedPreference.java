@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 public class SaveSharedPreference {
     static final String PHONE= "phone";
     static final String USERNAME= "username";
+    static final String IMAGEPROFILE= "profile";
     static final String STATE= "state";
     static final String SOCKETID= "socketid";
 
@@ -18,11 +19,12 @@ public class SaveSharedPreference {
         return PreferenceManager.getDefaultSharedPreferences(ctx);
     }
 
-    public static void setUserName(Context ctx, String phone, String userName /*, String state, String socketid*/)
+    public static void setUserName(Context ctx, String phone, String userName/*, String imageProfile , String state, String socketid*/)
     {
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
         editor.putString(PHONE, phone);
         editor.putString(USERNAME, userName);
+//        editor.putString(IMAGEPROFILE, imageProfile);
 //        editor.putString(STATE, state);
 //        editor.putString(SOCKETID, socketid);
         editor.commit();
@@ -35,6 +37,10 @@ public class SaveSharedPreference {
     public static String getUsername(Context ctx)
     {
         return getSharedPreferences(ctx).getString(USERNAME, "");
+    }
+    public static String getImageprofile(Context ctx)
+    {
+        return getSharedPreferences(ctx).getString(IMAGEPROFILE, "");
     }
     public static void clearUserName(Context ctx)
     {

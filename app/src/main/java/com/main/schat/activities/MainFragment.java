@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -24,6 +25,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -89,12 +91,12 @@ public class MainFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private boolean mTyping = false;
     private Handler mTypingHandler = new Handler();
-    private String mUsername;
+    private String mUsername, mImage_Profile;
     private String mRoomName;
     String username_friend;
     private String imgPath;
     private String socketId_friend;
-
+    private Base64 mBase64;
     public MainFragment() {
         super();
     }
@@ -135,11 +137,12 @@ public class MainFragment extends Fragment {
 
 
         mUsername = UiMychat.mUserName;
+        mImage_Profile = UiMychat.mImage_profile;
         username_friend = getActivity().getIntent().getStringExtra("name");
         socketId_friend = getActivity().getIntent().getStringExtra("socketfriend");
 
         username_friend = getActivity().getIntent().getStringExtra("name");
-        username_friend = getActivity().getIntent().getStringExtra("name");
+//        username_friend = getActivity().getIntent().getStringExtra("name");
 //        Toast.makeText(getActivity(),mUsername.toString(),Toast.LENGTH_SHORT).show();
         mSocket.connect();
         mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
@@ -237,6 +240,7 @@ public class MainFragment extends Fragment {
                 return false;
             }
         });
+
         mInputMessageView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -249,7 +253,8 @@ public class MainFragment extends Fragment {
 
                 if (!mTyping) {
                     mTyping = true;
-                    mSocket.emit("typing", socketId_friend);
+                    byte[] hinhanh = mBase64.decode(mImage_Profile,0);
+                    mSocket.emit("typing", socketId_friend, hinhanh);
                 }
 
                 mTypingHandler.removeCallbacks(onTypingTimeout);
@@ -394,6 +399,13 @@ public class MainFragment extends Fragment {
         intent.setType("image/*");
         startActivityForResult(intent,321);
     }
+
+    private void choosePicture_For_ChatContext(){
+
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent,543);
+    }
     // xu ly khi lay va chup anh
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -407,8 +419,10 @@ public class MainFragment extends Fragment {
 
                 Bitmap bitmap = decodeSampledBitmapFromFile(file.getAbsolutePath(), 1000, 700);
                 bytes = getByteArrayFromBipmap(directImage(bitmap, file.getAbsolutePath()));
-                addImage("You",directImage(bitmap, file.getAbsolutePath()),Messaging.TYPE_IMAGE_USER);
-                mSocket.emit("client gui image", bytes,socketId_friend);
+                byte[] hinhanh = mBase64.decode(mImage_Profile,0);
+                Bitmap bitmap_profile = BitmapFactory.decodeByteArray(hinhanh,0,hinhanh.length);
+                addImage("You",directImage(bitmap, file.getAbsolutePath()),Messaging.TYPE_IMAGE_USER,bitmap_profile);
+                mSocket.emit("client gui image", bytes ,socketId_friend,hinhanh);
 
 
 
@@ -419,18 +433,37 @@ public class MainFragment extends Fragment {
         }else if(requestCode == 321 && resultCode == getActivity().RESULT_OK){
             try {
 
-
                 Uri imageURI = data.getData();
                 InputStream is = getActivity().getContentResolver().openInputStream(imageURI);
 
                 final BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 8;
-
+                File file = new File(imageURI.getPath());
+                String pathImage = file.getAbsolutePath();
                 Bitmap bm = BitmapFactory.decodeStream(is,null,options);
-                 bm = resize(bm,1000,700);
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                    bm = directImage(bm,pathImage);
+                }
+                 bm = decodeUri(getActivity(), imageURI, 500);
                 byte[] bytes = getByteArrayFromBipmap(bm);
-                addImage("You",bm,Messaging.TYPE_IMAGE_USER);
-                mSocket.emit("client gui image", bytes, socketId_friend);
+                byte[] hinhanh_profile = mBase64.decode(mImage_Profile,0);
+                Bitmap bitmap_profile = BitmapFactory.decodeByteArray(hinhanh_profile,0,hinhanh_profile.length);
+                addImage("You",bm,Messaging.TYPE_IMAGE_USER,bitmap_profile);
+                mSocket.emit("client gui image", bytes, socketId_friend,hinhanh_profile);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }else if(requestCode == 543 && resultCode == getActivity().RESULT_OK){
+            try {
+
+                Uri imageURI = data.getData();
+                InputStream is = getActivity().getContentResolver().openInputStream(imageURI);
+                File file = new File(imageURI.getPath());
+                final BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 8;
+
+                Bitmap bm = decodeUri(getActivity(), imageURI, 1000);
+                mMessagesView.setBackground(new BitmapDrawable(this.getResources(),bm));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -543,7 +576,28 @@ public class MainFragment extends Fragment {
         }
     }
 
+    public static Bitmap decodeUri(Context c, Uri uri, final int requiredSize)
+            throws FileNotFoundException {
+        BitmapFactory.Options o = new BitmapFactory.Options();
+        o.inJustDecodeBounds = true;
+        BitmapFactory.decodeStream(c.getContentResolver().openInputStream(uri), null, o);
 
+        int width_tmp = o.outWidth
+                , height_tmp = o.outHeight;
+        int scale = 1;
+
+        while(true) {
+            if(width_tmp / 2 < requiredSize || height_tmp / 2 < requiredSize)
+                break;
+            width_tmp /= 2;
+            height_tmp /= 2;
+            scale *= 2;
+        }
+
+        BitmapFactory.Options o2 = new BitmapFactory.Options();
+        o2.inSampleSize = scale;
+        return BitmapFactory.decodeStream(c.getContentResolver().openInputStream(uri), null, o2);
+    }
 
 
     //    @Override
@@ -599,36 +653,36 @@ public class MainFragment extends Fragment {
         addLog(getResources().getQuantityString(R.plurals.message_participants, numUsers, numUsers));
     }
 
-    private void addMessage(String username, String message) {
+    private void addMessage(String username, String message, Bitmap bitmap) {
         mMessages.add(new Messaging.Builder(Messaging.TYPE_MESSAGE)
-                .username(username).message(message).datetime(currentDateandTime).build());
+                .image_profile(bitmap).username(username).message(message).datetime(currentDateandTime).build());
         Log.d("/////////////",currentDateandTime);
         mSocket.emit("update_message", username, message,socketId_friend);
         mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
     }
 
-    private void addImage(String username, Bitmap bitmap, int type) {
+    private void addImage(String username, Bitmap bitmap, int type, Bitmap bitmap_profile) {
         mMessages.add(new Messaging.Builder(type)
-                .username(username).image(bitmap).build());
+                .image_profile(bitmap_profile).username(username).image(bitmap).build());
         Log.d("/////////////",currentDateandTime);
         mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
     }
 
-    private void addMessage_user(String username, String message) {
+    private void addMessage_user(String username,Bitmap bitmap, String message) {
         mMessages.add(new Messaging.Builder(Messaging.TYPE_MESSAGE_USER)
-                .username(username).message(message).datetime(currentDateandTime).build());
+                .image_profile(bitmap).message(message).datetime(currentDateandTime).build());
         Log.d("/////////////",currentDateandTime);
-        mSocket.emit("update_message", username, message,socketId_friend);
+        mSocket.emit("update_message", username, bitmap, message,socketId_friend);
         mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
     }
 
 
-    private void addTyping(String username) {
+    private void addTyping(String username,Bitmap bitmap) {
         mMessages.add(new Messaging.Builder(Messaging.TYPE_ACTION)
-                .username(username).build());
+                .image_profile(bitmap).username(username).build());
         mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
     }
@@ -657,10 +711,12 @@ public class MainFragment extends Fragment {
         }
 
         mInputMessageView.setText("");
-        addMessage_user(mUsername, message);
+        byte[] hinhanh = mBase64.decode(mImage_Profile,0);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(hinhanh,0,hinhanh.length);
+        addMessage_user(mUsername,bitmap, message);
 
         // perform the sending message attempt.
-        mSocket.emit("new message", message, socketId_friend);
+        mSocket.emit("new message", message, socketId_friend,hinhanh);
     }
 
 
@@ -711,15 +767,19 @@ public class MainFragment extends Fragment {
                     JSONObject data = (JSONObject) args[0];
                     String username;
                     String message;
+                    byte[] profile;
                     try {
                         username = data.getString("username");
                         message = data.getString("message");
+                        removeTyping(username);
+                        profile = (byte[]) data.get("profile");
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(profile,0,profile.length);
+                        addMessage(username, message,bitmap);
                     } catch (JSONException e) {
                         return;
                     }
 //                    Toast.makeText(getActivity(),username +" muốn nhắn tin với bạn. vào chat ngay", Toast.LENGTH_SHORT).show();
-                    removeTyping(username);
-                    addMessage(username, message);
+
                 }
             });
         }
@@ -756,11 +816,14 @@ public class MainFragment extends Fragment {
                     JSONObject data = (JSONObject) args[0];
                     String username;
                     byte[] hinhanh;
+                    byte[] profile;
                     try {
                         username = data.getString("username");
                         hinhanh = (byte[]) data.get("image");
                         Bitmap bitmap = BitmapFactory.decodeByteArray(hinhanh,0,hinhanh.length);
-                        addImage(username,bitmap,Messaging.TYPE_IMAGE_FRIEND);
+                        profile = (byte[]) data.get("profile");
+                        Bitmap bitmap_profile = BitmapFactory.decodeByteArray(profile,0,profile.length);
+                        addImage(username,bitmap,Messaging.TYPE_IMAGE_FRIEND,bitmap_profile);
                     } catch (JSONException e) {
                         return;
                     }
@@ -834,12 +897,16 @@ public class MainFragment extends Fragment {
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
                     String username;
+                    byte[] profile;
                     try {
                         username = data.getString("username");
+                        profile = (byte[]) data.get("profile");
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(profile,0,profile.length);
+                        addTyping(username,bitmap);
                     } catch (JSONException e) {
                         return;
                     }
-                    addTyping(username);
+
                 }
             });
         }
@@ -963,10 +1030,10 @@ public class MainFragment extends Fragment {
                 // User chose the "Settings" item, show the app settings UI...
                 return true;
 
-            case R.id.micro:
+            case R.id.gallary:
                 // User chose the "Favorite" action, mark the current item
                 // as a favorite...
-
+                choosePicture_For_ChatContext();
                 return true;
 
             case android.R.id.home:

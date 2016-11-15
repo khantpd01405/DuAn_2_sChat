@@ -83,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
 //                                    .message(rec_mess.getString("message")).build());
 //                        }
                         User User = new User(rec.getString("phone").toString(),rec.getString("password").toString(),rec.getString("usr_name").toString(), rec.getBoolean("status"), rec.getString("socketId").toString() ,messageArray);
+                        User.setImage(rec.getString("image_profile"));
                         UserArray.add(User);
                         if(inputPhone.getText().toString().equals(User.getPhone().toString())){
                             tf = true;
@@ -98,6 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                         jsOb.put("username",ob.getUser_name());
                         jsOb.put("socketid",ob.getSocketId());
                         jsOb.put("status",ob.isStatus());
+                        jsOb.put("profile",ob.getImage());
                         mSocket.emit("user online", jsOb);
                     }
 
@@ -106,6 +108,12 @@ public class LoginActivity extends AppCompatActivity {
                     intent.putParcelableArrayListExtra(EXTRA_KEY,UserArray);
                     intent.putExtra("name",ob.getUser_name());
                     intent.putExtra("phone",ob.getPhone());
+                    intent.putExtra("socketid",ob.getSocketId());
+                    if(ob.getImage().equals("null")){
+                        intent.putExtra("profile","");
+                    }else{
+                        intent.putExtra("profile",ob.getImage());
+                    }
 
                 startActivity(intent);
                 finish();
@@ -233,7 +241,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         mSocket.off("login", onLogin);
         mSocket.off("login1", onLogin1);
     }
