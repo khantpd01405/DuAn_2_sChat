@@ -95,8 +95,9 @@ public class MainFragment extends Fragment {
     private String mRoomName;
     String username_friend;
     private String imgPath;
-    private String socketId_friend;
+    private String socketId_friend , image_profile_friend;
     private Base64 mBase64;
+    byte[] image_friend;
     public MainFragment() {
         super();
     }
@@ -105,7 +106,7 @@ public class MainFragment extends Fragment {
     public static final int CAPTURE_IMAGE_FULLSIZE_ACTIVITY_REQUEST_CODE = 1777;
     String mCurrentPhotoPath;
     //date time
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm  dd/MM/yyyy");
     String currentDateandTime = sdf.format(new Date());
 
     @Override
@@ -140,7 +141,8 @@ public class MainFragment extends Fragment {
         mImage_Profile = UiMychat.mImage_profile;
         username_friend = getActivity().getIntent().getStringExtra("name");
         socketId_friend = getActivity().getIntent().getStringExtra("socketfriend");
-
+        image_profile_friend = getActivity().getIntent().getStringExtra("profile_image");
+        image_friend = mBase64.decode(image_profile_friend,0);
         username_friend = getActivity().getIntent().getStringExtra("name");
 //        username_friend = getActivity().getIntent().getStringExtra("name");
 //        Toast.makeText(getActivity(),mUsername.toString(),Toast.LENGTH_SHORT).show();
@@ -212,7 +214,7 @@ public class MainFragment extends Fragment {
         else if (extras.getBoolean("click"))
         {
 
-            mSocket.emit("add user", extras.getString("usrname_friend"), extras.getInt("bindtoserver"));
+            mSocket.emit("add user", extras.getString("usrname_friend"), extras.getInt("bindtoserver"), extras.getString("profile"));
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(extras.getString("usrname"));
         }
 
@@ -653,11 +655,12 @@ public class MainFragment extends Fragment {
         addLog(getResources().getQuantityString(R.plurals.message_participants, numUsers, numUsers));
     }
 
-    private void addMessage(String username, String message, Bitmap bitmap) {
+    private void addMessage(String username, String message, Bitmap bitmap, String username_friend, String currentDateandTime, String profile_user, String profile_friend) {
         mMessages.add(new Messaging.Builder(Messaging.TYPE_MESSAGE)
                 .image_profile(bitmap).username(username).message(message).datetime(currentDateandTime).build());
         Log.d("/////////////",currentDateandTime);
-        mSocket.emit("update_message", username, message,socketId_friend);
+
+        mSocket.emit("update_message", username, message, username_friend, currentDateandTime,profile_user,profile_friend);
         mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
     }
@@ -670,11 +673,21 @@ public class MainFragment extends Fragment {
         scrollToBottom();
     }
 
-    private void addMessage_user(String username,Bitmap bitmap, String message) {
+    private void addMessage_user(String username,Bitmap bitmap, String message, String username_friend, String currentDateandTime, String profile_user, String profile_friend) {
         mMessages.add(new Messaging.Builder(Messaging.TYPE_MESSAGE_USER)
                 .image_profile(bitmap).message(message).datetime(currentDateandTime).build());
         Log.d("/////////////",currentDateandTime);
-        mSocket.emit("update_message", username, bitmap, message,socketId_friend);
+        mSocket.emit("update_message", username, message, username_friend, currentDateandTime, profile_user, profile_friend);
+        mAdapter.notifyItemInserted(mMessages.size() - 1);
+        scrollToBottom();
+    }
+
+
+    private void load_message(String username,Bitmap bitmap, String message, String username_friend, String currentDateandTime, String profile_user, String profile_friend) {
+        mMessages.add(new Messaging.Builder(Messaging.TYPE_MESSAGE_USER)
+                .image_profile(bitmap).message(message).datetime(currentDateandTime).build());
+        Log.d("/////////////",currentDateandTime);
+        mSocket.emit("update_message", username, message, username_friend, currentDateandTime, profile_user, profile_friend);
         mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
     }
@@ -713,10 +726,10 @@ public class MainFragment extends Fragment {
         mInputMessageView.setText("");
         byte[] hinhanh = mBase64.decode(mImage_Profile,0);
         Bitmap bitmap = BitmapFactory.decodeByteArray(hinhanh,0,hinhanh.length);
-        addMessage_user(mUsername,bitmap, message);
+        addMessage_user(mUsername,bitmap, message, username_friend, currentDateandTime,mImage_Profile, image_profile_friend);
 
         // perform the sending message attempt.
-        mSocket.emit("new message", message, socketId_friend,hinhanh);
+        mSocket.emit("new message", message, socketId_friend, mImage_Profile, hinhanh);
     }
 
 
@@ -774,7 +787,7 @@ public class MainFragment extends Fragment {
                         removeTyping(username);
                         profile = (byte[]) data.get("profile");
                         Bitmap bitmap = BitmapFactory.decodeByteArray(profile,0,profile.length);
-                        addMessage(username, message,bitmap);
+                        addMessage(username, message, bitmap, username_friend, currentDateandTime, mImage_Profile, image_profile_friend);
                     } catch (JSONException e) {
                         return;
                     }
@@ -847,7 +860,6 @@ public class MainFragment extends Fragment {
                     try {
                         text = data.getString("string");
                         username_friend = data.getString("username");
-
                         numUsers = data.getInt("numUsers");
                     } catch (JSONException e) {
                         return;

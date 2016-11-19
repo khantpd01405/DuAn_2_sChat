@@ -179,5 +179,6 @@ public class SignupActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mSocket.off("register", onRegister);
+
     }
 }

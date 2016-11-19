@@ -57,7 +57,6 @@ public class MyAlertDialogFragment extends DialogFragment {
 
             public void onClick(DialogInterface dialog, int which) {
                 SaveSharedPreference.clearUserName(getActivity());
-                startActivity(new Intent(getActivity(),LoginActivity.class));
                 getActivity().finish();
             }
 

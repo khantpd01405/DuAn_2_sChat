@@ -22,7 +22,7 @@ public class User implements Parcelable {
     private String fiendName;
     private boolean status;
     private String socketId;
-    private ArrayList<Messaging> user_message;
+    private ArrayList<ArrayList<Messaging>> user_message;
 
     public User() {
     }
@@ -32,7 +32,7 @@ public class User implements Parcelable {
         this.user_name = user_name;
         this.status = tf;
     }
-    public User(String phone, String password, String user_name, boolean stt ,String socketId,ArrayList<Messaging> u_message) {
+    public User(String phone, String password, String user_name, boolean stt ,String socketId,ArrayList<ArrayList<Messaging>> u_message) {
         this.phone = phone;
         this.password = password;
         this.user_name = user_name;
@@ -40,7 +40,8 @@ public class User implements Parcelable {
         this.socketId = socketId;
         this.user_message = u_message;
     }
-    public User(String id, String user_name, String phone, String password, String email, String image, String sex, String birthday, String fiendName, ArrayList<Messaging> user_message) {
+
+    public User(String id, String user_name, String phone, String password, String email, String image, String sex, String birthday, String fiendName, ArrayList<ArrayList<Messaging>> user_message) {
         this.id = id;
         this.user_name = user_name;
         this.phone = phone;
@@ -65,7 +66,7 @@ public class User implements Parcelable {
         fiendName = in.readString();
         status = Boolean.parseBoolean(in.readString());
         socketId = in.readString();
-        user_message = (ArrayList<Messaging>) in.readSerializable();
+        user_message = (ArrayList<ArrayList<Messaging>>) in.readSerializable();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -168,11 +169,11 @@ public class User implements Parcelable {
         this.fiendName = fiendName;
     }
 
-    public List<Messaging> getUser_message() {
+    public List<ArrayList<Messaging>> getUser_message() {
         return user_message;
     }
 
-    public void setUser_message(ArrayList<Messaging> user_message) {
+    public void setUser_message(ArrayList<ArrayList<Messaging>> user_message) {
         this.user_message = user_message;
     }
 

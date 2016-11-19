@@ -20,12 +20,14 @@ public class Messaging  implements Serializable{
 
     private int mType;
     private String mMessage;
+    private String mUsername_fiend;
     private String mUsername;
     private String mDateTime;
+    private String mString_profile;
     private Bitmap mImage;
     private Bitmap mImage_profile;
 
-    private Messaging() {}
+    public Messaging() {}
 
     protected Messaging(Parcel in) {
         mType = in.readInt();
@@ -34,7 +36,9 @@ public class Messaging  implements Serializable{
         mDateTime = in.readString();
     }
 
-
+    public String getString_profile() {
+        return mString_profile;
+    }
 
     public int getType() {
         return mType;
@@ -47,6 +51,11 @@ public class Messaging  implements Serializable{
     public String getUsername() {
         return mUsername;
     };
+
+    public String getUsername_fiend() {
+        return mUsername_fiend;
+    }
+
 
     public String getDateTime() {
         return mDateTime;
@@ -63,8 +72,10 @@ public class Messaging  implements Serializable{
     public static class Builder {
         private final int mType;
         private String mUsername;
+        private String mUsername_fiend;
         private String mMessage;
         private String mDateTime;
+        private String mString_profile;
         private Bitmap mImage;
         private Bitmap mImage_profile;
         public Builder(int type) {
@@ -76,10 +87,21 @@ public class Messaging  implements Serializable{
             return this;
         }
 
+        public Builder username_fiend(String username_fiend) {
+             mUsername_fiend = username_fiend;
+            return this;
+        }
+
         public Builder message(String message) {
             mMessage = message;
             return this;
         }
+
+        public Builder string_profile(String string_profile) {
+            mString_profile = string_profile;
+            return this;
+        }
+
         public Builder image_profile(Bitmap image) {
             mImage_profile = image;
             return this;
@@ -98,8 +120,10 @@ public class Messaging  implements Serializable{
             Messaging message = new Messaging();
             message.mType = mType;
             message.mUsername = mUsername;
+            message.mUsername_fiend = mUsername_fiend;
             message.mMessage = mMessage;
             message.mDateTime = mDateTime;
+            message.mString_profile = mString_profile;
             message.mImage = mImage;
             message.mImage_profile = mImage_profile;
             return message;

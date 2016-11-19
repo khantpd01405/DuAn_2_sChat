@@ -168,7 +168,7 @@ public class Tab4Fragment extends Fragment {
                 options.inSampleSize = 8;
 
                 Bitmap bm = BitmapFactory.decodeStream(is,null,options);
-                bm = decodeUri(getActivity(),imageURI,50);
+                bm = decodeUri(getActivity(),imageURI,25);
 
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                     bm = directImage(bm,pathImage);

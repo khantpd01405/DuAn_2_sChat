@@ -18,11 +18,13 @@
     android:layout_alignParentTop="true">
 
 
-    <ImageView
-        android:id="@+id/image_usr"
-        android:layout_width="40dp"
-        android:src="@drawable/ic_launcher"
-        android:layout_height="50dp" />
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image_profile_friend"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@mipmap/logo"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,7 +52,8 @@
         android:id="@+id/tv_date_listmess"
         android:textColor="@color/year"
         android:layout_width="wrap_content"
-        android:text="dfdsf"
+        android:text="2016-11-10_9:30"
+        android:textSize="12sp"
         android:layout_alignParentRight="true"
         android:layout_height="wrap_content" />
 

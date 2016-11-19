@@ -568,7 +568,6 @@ public class MainFragment_ChatRoom extends Fragment {
         mMessages.add(new Messaging.Builder(Messaging.TYPE_MESSAGE)
                 .username(username).message(message).datetime(currentDateandTime).build());
         Log.d("/////////////",currentDateandTime);
-        mSocket.emit("update_message", username, message,socketId_friend);
         mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
     }
@@ -585,7 +584,6 @@ public class MainFragment_ChatRoom extends Fragment {
         mMessages.add(new Messaging.Builder(Messaging.TYPE_MESSAGE_USER)
                 .username(username).message(message).datetime(currentDateandTime).build());
         Log.d("/////////////",currentDateandTime);
-        mSocket.emit("update_message", username, message,socketId_friend);
         mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
     }

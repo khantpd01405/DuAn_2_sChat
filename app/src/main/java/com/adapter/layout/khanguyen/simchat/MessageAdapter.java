@@ -2,6 +2,7 @@ package com.adapter.layout.khanguyen.simchat;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -109,7 +110,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         public void setImage_profile(Bitmap bitmap) {
             if (null == mImageProfile) return;
-            mImageProfile.setImageBitmap(bitmap);
+            if(bitmap == null){
+               mImageProfile.setImageResource(R.drawable.user);
+            }else{
+                mImageProfile.setImageBitmap(bitmap);
+            }
+
+
+
 //            mUsernameView.setTextColor(getUsernameColor(username));
         }
 

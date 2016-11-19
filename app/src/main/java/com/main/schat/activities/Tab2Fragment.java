@@ -17,16 +17,20 @@ import com.main.schat.activities.R;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
+import com.object.contain.khanguyen.simchat.Globals;
 import com.object.contain.khanguyen.simchat.HistoryMessage;
 import com.object.contain.khanguyen.simchat.Messaging;
 import com.object.contain.khanguyen.simchat.User;
 import com.socket.contain.khanguyen.simchat.Constants;
+import com.state.SaveSharedPreference;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by XuanVinh on 14/10/2016.
@@ -40,9 +44,10 @@ public class Tab2Fragment extends Fragment {
     String usrname_current;
     String phone_current;
     private ArrayList<User> UserArray;
-    private ArrayList<Messaging> messageArray = new ArrayList<>();
+    private ArrayList<ArrayList<Messaging>> array_of_messageArray = new ArrayList<>();
     private ArrayList<HistoryMessage> mMessageListList = new ArrayList<>();
     JSONArray dat;
+    Globals mGlobals = Globals.getInstance();
     @Nullable
     private Socket mSocket;
     {
@@ -61,54 +66,57 @@ public class Tab2Fragment extends Fragment {
 //            Log.d("//////////////","1 tin nhan");
 
             dat =  (JSONArray) args[0];
+            if (getActivity()!=null) {
+
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        clearArray();
+                        for (int i = 0 ; i <dat.length(); i++) {
+                            JSONObject rec = null;
+                            try {
+                                rec = dat.getJSONObject(i);
+                                JSONObject obb = rec.getJSONObject("id_message");
+                                Iterator keysToCopyIterator = obb.keys();
 
 
-    getActivity().runOnUiThread(new Runnable() {
-        public void run() {
-            clearArray();
-            try {
-                for (int i = 0 ; i <dat.length(); i++) {
-                    JSONObject rec = dat.getJSONObject(i);
-                    JSONArray messArr = rec.getJSONArray("message_usr_arr");
-                    for (int j =0; j < messArr.length(); j++){
-                        JSONObject rec_mess = messArr.getJSONObject(j);
-                        messageArray.add(new Messaging.Builder(Messaging.TYPE_MESSAGE)
-                                .username(rec_mess.getString("usrname"))
-                                .message(rec_mess.getString("message")).build());
+                                while(keysToCopyIterator.hasNext()) {
+
+                                    String key = (String) keysToCopyIterator.next();
+                                    JSONArray arrayMessage = obb.getJSONArray(key);
+//                                Log.d("array message", arrayMessage.toString());
+                                    ArrayList<Messaging> messageArray = new ArrayList<>();
+                                    for (int j =0; j < arrayMessage.length(); j++){
+                                        JSONObject rec_mess = arrayMessage.getJSONObject(j);
+//                                    messageArray.add(new Messaging.Builder(Messaging.TYPE_MESSAGE)
+//                                    .username(rec_mess.getString("usrname"))
+//                                    .message(rec_mess.getString("message")).build());
+
+                                        messageArray.add(new Messaging.Builder(Messaging.TYPE_MESSAGE)
+                                                .string_profile(rec_mess.getString("profile_friend")).username(rec_mess.getString("usrname")).username_fiend(rec_mess.getString("username_friend"))
+                                                .message(rec_mess.getString("message")).datetime(rec_mess.getString("date_time")).build());
+                                    }
+                                    array_of_messageArray.add(messageArray);
+                                    mAdapter.notifyDataSetChanged();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+
+
+                        }
+
                     }
-                    User User = new User(rec.getString("phone").toString(),rec.getString("password").toString(),rec.getString("usr_name").toString(),true,rec.getString("socketId"),messageArray);
-                    arr.add(User);
-                    if(usrname_current.equals(User.getUser_name().toString())){
-                        tf = true;
-                        ob = User;
-                    }
-                }
-
-                if(tf) {
-                    arr.remove(ob);
-                }
-
-                String me = "";
-                for (int i = 0 ; i < arr.size() ; i++){
-
-                    me = arr.get(i).getUser_message().get(arr.get(i).getUser_message().size()-1).getMessage();
-
-                    mMessageListList.add(new HistoryMessage(arr.get(i).getUser_name()
-                            ,me.toString()));
-//            mMessageListList = arr.get(i).getUser_message();
-                }
-
-                        mAdapter.notifyDataSetChanged();
-
-            } catch (Exception e) {
-                e.printStackTrace();
+                });
             }
 
-        }
-    });
 
         }
     };
+
+
+
+
 
     @Nullable
     @Override
@@ -120,6 +128,7 @@ public class Tab2Fragment extends Fragment {
 
         arr =  intent.getParcelableArrayListExtra(LoginActivity.EXTRA_KEY);
         usrname_current = intent.getStringExtra("name").toString();
+        array_of_messageArray = mGlobals.getData();
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_history);
         String me = "";
 //        for (int i = 0 ; i < arr.size()-1 ; i++){
@@ -131,7 +140,7 @@ public class Tab2Fragment extends Fragment {
 ////            mMessageListList = arr.get(i).getUser_message();
 //        }
 
-        mAdapter = new HistoryMessAdapter(mMessageListList);
+        mAdapter = new HistoryMessAdapter(array_of_messageArray);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -142,8 +151,7 @@ public class Tab2Fragment extends Fragment {
     }
 
     private void clearArray(){
-        arr.clear();
-        mMessageListList.clear();
+        array_of_messageArray.clear();
 //        mAdapter.notifyDataSetChanged();
     }
 
@@ -160,8 +168,6 @@ public class Tab2Fragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
-
         mSocket.off("on_emit_message", on_emit_message);
 
     }

@@ -86,10 +86,6 @@ public class Tab1Fragment extends Fragment {
 ////        mSocket.on("getarr", onFragment);
 
 
-        mAdapter.notifyDataSetChanged();
-
-
-
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(
                 getActivity().getApplicationContext(),recyclerView, new RecyclerTouchListener.OnItemClickListener(){
 
@@ -99,6 +95,7 @@ public class Tab1Fragment extends Fragment {
                 Intent intent = new Intent(getActivity(),ChatActivity.class);
                 intent.putExtra("name",arr.get(position).getUser_name());
                 intent.putExtra("socketfriend",arr.get(position).getSocketId());
+                intent.putExtra("profile_image",arr.get(position).getImage());
                 startActivity(intent);
             }
         }));
@@ -119,6 +116,7 @@ public class Tab1Fragment extends Fragment {
     }
 
     private void attemptLogin(User user) {
+
         int bind_two_user = Integer.parseInt(user.getPhone()) + Integer.parseInt(phone_current);
         // perform the user login attempt.
         mSocket.emit("add user", usrname_current, bind_two_user);
@@ -126,32 +124,37 @@ public class Tab1Fragment extends Fragment {
 
         private Emitter.Listener onRegister = new Emitter.Listener() {
             @Override
-            public void call(Object... args) {
-                JSONObject data = (JSONObject)  args[0];
+            public void call(final Object... args) {
+                if (getActivity()!=null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
                 try {
+                    JSONObject data = (JSONObject)  args[0];
                     if(data.getString("tf").toString().equals("true")){
                          phone = data.getJSONObject("user").getString("phone").toString();
                          usrname = data.getJSONObject("user").getString("usr_name").toString();
                          profile_other = data.getJSONObject("user").getString("image_profile").toString();
                          socketId_other = data.getJSONObject("user").getString("socketId").toString();
 
-                        if (getActivity()!=null) {
-                            getActivity().runOnUiThread(new Runnable() {
-                                public void run() {
                                     User user = new User(usrname, false);
+                                    user.setPhone(phone);
                                     user.setSocketId(socketId_other);
                                     user.setImage(profile_other);
                                     prepareMovieData(user);
-                                    Toast.makeText(getActivity(), "Một người dùng mới đã sử dụng ứng dụng :)", Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        }
-                        // Launch login activity
-                    }else{
+//                                    Toast.makeText(getActivity(), "Một người dùng mới đã sử dụng ứng dụng :)", Toast.LENGTH_LONG).show();
 
+                        // Launch login activity
                     }
+
+
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
+                }
+
+                        }
+                    });
                 }
                 //   hideDialog();
             }
@@ -205,8 +208,7 @@ public class Tab1Fragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
                         try {
-
-                            User user = new User(usrname, false);
+                            User user = new User();
 
                             user.setPhone(data.getString("phone"));
                             user.setUser_name(data.getString("username"));
@@ -273,13 +275,14 @@ public class Tab1Fragment extends Fragment {
     };
 
 
-    public void sendNotification(String username,String message, String socketid, int bind_two_user) {
+    public void sendNotification(String username,String message, String socketid, int bind_two_user, String profile) {
         Intent intent = new Intent(getActivity(), ChatActivity.class);
         intent.putExtra("socketfriend", socketid);
         intent.putExtra("usrname_friend",UiMychat.mUserName);
         intent.putExtra("name",username);
         intent.putExtra("click",true);
         intent.putExtra("bindtoserver",bind_two_user);
+        intent.putExtra("profile_image",profile);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0 /* Request code */, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
@@ -304,28 +307,29 @@ public class Tab1Fragment extends Fragment {
         @Override
         public void call(final Object... args) {
 
+            if (getActivity()!=null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        JSONObject data = (JSONObject) args[0];
+                        try {
 
-            getActivity().runOnUiThread(new Runnable() {
-                public void run() {
-                    JSONObject data = (JSONObject)  args[0];
-                    try {
+                            usrname = data.getString("username");
+                            String message = data.getString("message").toString();
+                            int phone = data.getInt("phone");
+                            String socketid = data.getString("socketId");
+                            String profile = data.getString("profile");
+                            int bind_two_user = phone + Integer.parseInt(phone_current);
+                            // perform the user login attempt.
 
-                        usrname = data.getString("username");
-                        String message = data.getString("message").toString();
-                        int phone = data.getInt("phone");
-                        String socketid = data.getString("socketId");
-                        int bind_two_user =  phone + Integer.parseInt(phone_current);
-                        // perform the user login attempt.
+                            sendNotification(usrname, message, socketid, bind_two_user, profile);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
-                        sendNotification(usrname,message, socketid, bind_two_user);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+
                     }
-
-
-                }
-            });
-
+                });
+            }
             // Launch login activity
 
 
@@ -380,6 +384,6 @@ public class Tab1Fragment extends Fragment {
         mSocket.off("user off", onUserOff);
         mSocket.off("logout", onLogOut);
         mSocket.off("user online", onUserOnline);
-
+        mSocket.off("client gui image dai dien", onUserSendProfile);
     }
 }
